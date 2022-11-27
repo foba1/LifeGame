@@ -52,12 +52,12 @@ public class PatternPreview {
 	{	return theInstance;
 	}
 	
-	public void Show(Point here)
+	public void Show(Point here, Rectangle surface)
 	{
 		System.out.println("Show pattern " + curPreviewPattern);
 	}
 	
-	public void Draw(Point here)
+	public void Draw(Point here, Rectangle surface)
 	{
 		System.out.println("Draw pattern " + curPreviewPattern);
 	}

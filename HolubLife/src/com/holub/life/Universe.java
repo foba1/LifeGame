@@ -80,15 +80,15 @@ public class Universe extends JPanel {
 		(	new MouseAdapter()
 			{	public void mousePressed(MouseEvent e)
 				{
+					Rectangle bounds = getBounds();
+					bounds.x = 0;
+					bounds.y = 0;
 					if (PatternPreview.instance().IsPatternSelected())
 					{
-						PatternPreview.instance().Draw(e.getPoint());
+						PatternPreview.instance().Draw(e.getPoint(),bounds);
 					}
 					else
 					{
-						Rectangle bounds = getBounds();
-						bounds.x = 0;
-						bounds.y = 0;
 						outermostCell.userClicked(e.getPoint(),bounds);
 						repaint();
 					}
@@ -102,7 +102,10 @@ public class Universe extends JPanel {
 				{
 					if (PatternPreview.instance().IsPatternSelected())
 					{
-						PatternPreview.instance().Show(e.getPoint());
+						Rectangle bounds = getBounds();
+						bounds.x = 0;
+						bounds.y = 0;
+						PatternPreview.instance().Show(e.getPoint(),bounds);
 					}
 				}
 			}
