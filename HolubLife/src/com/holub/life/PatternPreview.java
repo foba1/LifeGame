@@ -62,9 +62,29 @@ public class PatternPreview {
 		System.out.println("Draw pattern " + curPreviewPattern);
 		if (curPreviewPattern == 0)
 		{
-			System.out.println(here);
+			// Block Pattern
 			int[] deltaXList= {0,8,0,8};
 			int[] deltaYList = {0,0,8,8};
+			for (int i = 0; i < deltaXList.length; i++)
+			{
+				cell.userClicked(new Point(here.x + deltaXList[i], here.y + deltaYList[i]),surface);
+			}
+		}
+		else if (curPreviewPattern == 1)
+		{
+			// Blinker Pattern
+			int[] deltaXList= {0,8,16};
+			int[] deltaYList = {0,0,0};
+			for (int i = 0; i < deltaXList.length; i++)
+			{
+				cell.userClicked(new Point(here.x + deltaXList[i], here.y + deltaYList[i]),surface);
+			}
+		}
+		else if (curPreviewPattern == 2)
+		{
+			// Glider Pattern
+			int[] deltaXList= {8,16,0,8,16};
+			int[] deltaYList = {0,8,16,16,16};
 			for (int i = 0; i < deltaXList.length; i++)
 			{
 				cell.userClicked(new Point(here.x + deltaXList[i], here.y + deltaYList[i]),surface);
