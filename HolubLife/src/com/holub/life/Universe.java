@@ -68,22 +68,31 @@ public class Universe extends JPanel {
 				bounds.width = bounds.height;
 				setBounds(bounds);
 			}
-		});
+		);
 
-		setBackground(Color.white);
-		setPreferredSize(PREFERRED_SIZE);
-		setMaximumSize(PREFERRED_SIZE);
-		setMinimumSize(PREFERRED_SIZE);
-		setOpaque(true);
+		setBackground	( Color.white	 );
+		setPreferredSize( PREFERRED_SIZE );
+		setMaximumSize	( PREFERRED_SIZE );
+		setMinimumSize	( PREFERRED_SIZE );
+		setOpaque		( true			 );
 
-		addMouseListener // {=Universe.mouse}
-		(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				Rectangle bounds = getBounds();
-				bounds.x = 0;
-				bounds.y = 0;
-				outermostCell.userClicked(e.getPoint(), bounds);
-				repaint();
+		addMouseListener					//{=Universe.mouse}
+		(	new MouseAdapter()
+			{	public void mousePressed(MouseEvent e)
+				{
+					if (PatternPreview.instance().IsPatternSelected())
+					{
+						PatternPreview.instance().Draw(e.getPoint());
+					}
+					else
+					{
+						Rectangle bounds = getBounds();
+						bounds.x = 0;
+						bounds.y = 0;
+						outermostCell.userClicked(e.getPoint(),bounds);
+						repaint();
+					}
+				}
 			}
 		);
 		
@@ -91,7 +100,10 @@ public class Universe extends JPanel {
 		(	new MouseAdapter()
 			{	public void mouseMoved(MouseEvent e)
 				{
-					PatternPreview.instance().Show();
+					if (PatternPreview.instance().IsPatternSelected())
+					{
+						PatternPreview.instance().Show(e.getPoint());
+					}
 				}
 			}
 		);
