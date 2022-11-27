@@ -85,15 +85,25 @@ public class Universe extends JPanel {
 				outermostCell.userClicked(e.getPoint(), bounds);
 				repaint();
 			}
-		});
-
-		MenuSite.addLine(this, "Grid", "Clear",
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						outermostCell.clear();
-						repaint();
-					}
-				});
+		);
+		
+		addMouseMotionListener					//{=Universe.mouse}
+		(	new MouseAdapter()
+			{	public void mouseMoved(MouseEvent e)
+				{
+					PatternPreview.instance().Show();
+				}
+			}
+		);
+		
+		MenuSite.addLine( this, "Grid", "Clear",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{	outermostCell.clear();
+					repaint();
+				}
+			}
+		);
 
 		MenuSite.addLine // {=Universe.load.setup}
 		(this, "Grid", "Load",

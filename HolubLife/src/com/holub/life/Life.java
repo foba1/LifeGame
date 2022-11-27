@@ -31,5 +31,7 @@ public final class Life extends JFrame {
 
     pack();
     setVisible(true);
+
+    PatternPreview.instance();
   }
 }
