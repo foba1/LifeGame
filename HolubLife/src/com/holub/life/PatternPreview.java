@@ -57,9 +57,19 @@ public class PatternPreview {
 		System.out.println("Show pattern " + curPreviewPattern);
 	}
 	
-	public void Draw(Point here, Rectangle surface)
+	public void Draw(Point here, Rectangle surface, Cell cell)
 	{
 		System.out.println("Draw pattern " + curPreviewPattern);
+		if (curPreviewPattern == 0)
+		{
+			System.out.println(here);
+			int[] deltaXList= {0,8,0,8};
+			int[] deltaYList = {0,0,8,8};
+			for (int i = 0; i < deltaXList.length; i++)
+			{
+				cell.userClicked(new Point(here.x + deltaXList[i], here.y + deltaYList[i]),surface);
+			}
+		}
 	}
 	
 	public boolean IsPatternSelected()

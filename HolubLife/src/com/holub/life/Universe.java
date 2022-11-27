@@ -85,13 +85,13 @@ public class Universe extends JPanel {
 					bounds.y = 0;
 					if (PatternPreview.instance().IsPatternSelected())
 					{
-						PatternPreview.instance().Draw(e.getPoint(),bounds);
+						PatternPreview.instance().Draw(e.getPoint(),bounds,outermostCell);
 					}
 					else
 					{
 						outermostCell.userClicked(e.getPoint(),bounds);
-						repaint();
 					}
+					repaint();
 				}
 			}
 		);
