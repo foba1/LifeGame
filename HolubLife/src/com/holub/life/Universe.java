@@ -79,7 +79,17 @@ public class Universe extends JPanel
 					Rectangle bounds = getBounds();
 					bounds.height /= outermostCell.widthInCells();
 					bounds.height *= outermostCell.widthInCells();
-					bounds.width  =  bounds.height;
+					bounds.width  /= outermostCell.widthInCells();
+					bounds.width *= outermostCell.widthInCells();
+					
+					if (bounds.height > bounds.width)
+					{	
+						bounds.height = bounds.width;
+					}
+					else
+					{
+						bounds.width = bounds.height;
+					}
 					setBounds( bounds );
 				}
 			}
