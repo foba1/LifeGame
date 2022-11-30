@@ -163,6 +163,40 @@ public class Universe extends JPanel
 				}
 			}
 		);
+		
+		PatternChooser.getChooser().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			    if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
+			    {
+			        System.out.println("approve selection");
+			        try
+			        {
+			        	FileInputStream in = new FileInputStream(
+			        			PatternChooser.getChooser().getSelectedFile());
+						Clock.instance().stop();		// stop the game and
+						outermostCell.clear();			// clear the board.
+						
+						Storable memento = outermostCell.createMemento();
+						memento.load( in );
+						outermostCell.transfer( memento, new Point(0,0), Cell.LOAD );
+	
+						in.close();
+			        }
+			        catch( IOException theException )
+			    	{	JOptionPane.showMessageDialog( null, "Read Failed!",
+								"The Game of Life", JOptionPane.ERROR_MESSAGE);
+					}
+					repaint();
+			    }
+			    else if (e.getActionCommand().equals(JFileChooser.CANCEL_SELECTION))
+			    {
+			        System.out.println("cancel selection");
+			    }
+			}
+			
+		});
 	}
 
 	/** Singleton Accessor. The Universe object itself is manufactured

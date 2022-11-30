@@ -57,6 +57,29 @@ public class Files
 		throw new FileNotFoundException("No file selected by user");
 	}
 
+	public static JFileChooser fileChooser( final String startHere, 
+			final String extension,
+			final String description,
+			final String selectButtonText )
+	{	FileFilter filter = 
+			new FileFilter()
+			{	public boolean accept(File f)
+				{	return f.isDirectory()
+							|| (extension != null 
+									&& f.getName().endsWith(extension) );
+				}
+				public String getDescription()
+				{	return description;
+				}
+			};
+		
+		JFileChooser chooser = new JFileChooser(startHere);
+		chooser.setFileFilter(filter);
+		chooser.setApproveButtonText(selectButtonText);
+		
+		return chooser;
+	}
+	
 	/** A unit test class for the methods in this class. Run with
 	 *  java com.holub.io.Files\$Test
 	 */
