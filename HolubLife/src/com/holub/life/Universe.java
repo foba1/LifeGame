@@ -170,17 +170,13 @@ public class Universe extends JPanel
 			public void actionPerformed(ActionEvent e) {
 			    if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
 			    {
-			        System.out.println("approve selection");
 			        try
 			        {
 			        	FileInputStream in = new FileInputStream(
 			        			PatternChooser.getChooser().getSelectedFile());
 						Clock.instance().stop();		// stop the game and
-						outermostCell.clear();			// clear the board.
 						
-						Storable memento = outermostCell.createMemento();
-						memento.load( in );
-						outermostCell.transfer( memento, new Point(0,0), Cell.LOAD );
+						PatternPreview.instance().preview(in);
 	
 						in.close();
 			        }
@@ -188,11 +184,10 @@ public class Universe extends JPanel
 			    	{	JOptionPane.showMessageDialog( null, "Read Failed!",
 								"The Game of Life", JOptionPane.ERROR_MESSAGE);
 					}
-					repaint();
 			    }
 			    else if (e.getActionCommand().equals(JFileChooser.CANCEL_SELECTION))
 			    {
-			        System.out.println("cancel selection");
+			    	PatternPreview.instance().clear();
 			    }
 			}
 			

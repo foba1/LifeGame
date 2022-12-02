@@ -97,106 +97,9 @@ public class PatternPreview extends JPanel
 
 		setBackground	( Color.white	 );
 		setPreferredSize( new Dimension(400,400) );
-		setMaximumSize	( PREFERRED_SIZE );
+//		setMaximumSize	( PREFERRED_SIZE );
 		setMinimumSize	( new Dimension(400,400) );
 		setOpaque		( true			 );
-
-//		addMouseListener					//{=Universe.mouse}
-//		(	new MouseAdapter()
-//			{	public void mousePressed(MouseEvent e)
-//				{	Rectangle bounds = getBounds();
-//					bounds.x = 0;
-//					bounds.y = 0;
-//					outermostCell.userClicked(e.getPoint(),bounds);
-//					repaint();
-//				}
-//			}
-//		);
-//
-//		MenuSite.addLine( this, "Grid", "Clear",
-//			new ActionListener()
-//			{	public void actionPerformed(ActionEvent e)
-//				{	outermostCell.clear();
-//					repaint();
-//				}
-//			}
-//		);
-//
-//		MenuSite.addLine			// {=Universe.load.setup}
-//		(	this, "Grid", "Load",
-//			new ActionListener()
-//			{	public void actionPerformed(ActionEvent e)
-//				{	doLoad();
-//				}
-//			}
-//		);
-//
-//		MenuSite.addLine
-//		(	this, "Grid", "Store",
-//			new ActionListener()
-//			{	public void actionPerformed(ActionEvent e)
-//				{	doStore();
-//				}
-//			}
-//		);
-//
-//		MenuSite.addLine
-//		(	this, "Grid", "Exit",
-//			new ActionListener()
-//			{	public void actionPerformed(ActionEvent e)
-//		        {	System.exit(0);
-//		        }
-//			}
-//		);
-//
-//		Clock.instance().addClockListener //{=Universe.clock.subscribe}
-//		(	new Clock.Listener()
-//			{	public void tick()
-//				{	if( outermostCell.figureNextState
-//						   ( Cell.DUMMY,Cell.DUMMY,Cell.DUMMY,Cell.DUMMY,
-//							 Cell.DUMMY,Cell.DUMMY,Cell.DUMMY,Cell.DUMMY
-//						   )
-//					  )
-//					{	if( outermostCell.transition() )
-//							refreshNow();
-//					}
-//				}
-//			}
-//		);
-//		
-//		PatternChooser.getChooser().addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//			    if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
-//			    {
-//			        System.out.println("approve selection");
-//			        try
-//			        {
-//			        	FileInputStream in = new FileInputStream(
-//			        			PatternChooser.getChooser().getSelectedFile());
-//						Clock.instance().stop();		// stop the game and
-//						outermostCell.clear();			// clear the board.
-//						
-//						Storable memento = outermostCell.createMemento();
-//						memento.load( in );
-//						outermostCell.transfer( memento, new Point(0,0), Cell.LOAD );
-//	
-//						in.close();
-//			        }
-//			        catch( IOException theException )
-//			    	{	JOptionPane.showMessageDialog( null, "Read Failed!",
-//								"The Game of Life", JOptionPane.ERROR_MESSAGE);
-//					}
-//					repaint();
-//			    }
-//			    else if (e.getActionCommand().equals(JFileChooser.CANCEL_SELECTION))
-//			    {
-//			        System.out.println("cancel selection");
-//			    }
-//			}
-//			
-//		});
 	}
 
 	/** Singleton Accessor. The Universe object itself is manufactured
@@ -207,6 +110,23 @@ public class PatternPreview extends JPanel
 	{	return theInstance;
 	}
 
+	public void clear() {
+		outermostCell.clear();			// clear the board.
+		repaint();
+	}
+	
+	public void preview(FileInputStream in) {
+        try
+        {	outermostCell.clear();			// clear the board.
+			
+			Storable memento = outermostCell.createMemento();
+			memento.load( in );
+			outermostCell.transfer( memento, new Point(0,0), Cell.LOAD );
+        }catch( IOException theException ) {}
+        
+		repaint();
+	}
+	
 	private void doLoad()
 	{	try
 		{
@@ -228,26 +148,6 @@ public class PatternPreview extends JPanel
 		}
 		repaint();
 	}
-//
-//	private void doStore()
-//	{	try
-//		{
-//			FileOutputStream out = new FileOutputStream(
-//				  Files.userSelected(".",".life","Life File","Write"));
-//
-//			Clock.instance().stop();		// stop the game
-//
-//			Storable memento = outermostCell.createMemento();
-//			outermostCell.transfer( memento, new Point(0,0), Cell.STORE );
-//			memento.flush(out);
-//
-//			out.close();
-//		}
-//		catch( IOException theException )
-//		{	JOptionPane.showMessageDialog( null, "Write Failed!",
-//					"The Game of Life", JOptionPane.ERROR_MESSAGE);
-//		}
-//	}
 
 	/** Override paint to ask the outermost Neighborhood
 	 *  (and any subcells) to draw themselves recursively.
@@ -276,25 +176,4 @@ public class PatternPreview extends JPanel
 	 *  have to be refreshed.
 	 */
 
-//	private void refreshNow()
-//	{	SwingUtilities.invokeLater
-//		(	new Runnable()
-//			{	public void run()
-//				{	Graphics g = getGraphics();
-//					if( g == null )		// Universe not displayable
-//						return;
-//					try
-//					{
-//						Rectangle panelBounds = getBounds();
-//						panelBounds.x = 0;
-//						panelBounds.y = 0;
-//						outermostCell.redraw(g, panelBounds, false); //{=Universe.redraw2}
-//					}
-//					finally
-//					{	g.dispose();
-//					}
-//				}
-//			}
-//		);
-//	}
 }
