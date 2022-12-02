@@ -28,9 +28,10 @@ import com.holub.life.Resident;
 
 public class PatternChooser extends JPanel
 {	//private 		final Cell  	outermostCell;
+	private static	final JFileChooser		chooser = Files.fileChooser(".",".life","Life File","Pattern");
+	private static	final PatternPreview 	patternPreview = PatternPreview.instance();
+	private static 	final GridLayout		layout		= new GridLayout(2,1);
 	private static	final PatternChooser 	theInstance = new PatternChooser();
-	private static	JFileChooser	chooser;
-	private static 	File	selectedFile;
 
 	/** The default height and width of a Neighborhood in cells.
 	 *  If it's too big, you'll run too slowly because
@@ -38,13 +39,13 @@ public class PatternChooser extends JPanel
 	 *  to do. If it's too small, you have too many blocks to check.
 	 *  I've found that 8 is a good compromise.
 	 */
-	private static final int  DEFAULT_WIDTH_SIZE = 400;
+//	private static final int  DEFAULT_WIDTH_SIZE = 400;
 
 	/** The size of the smallest "atomic" cell---a Resident object.
 	 *  This size is extrinsic to a Resident (It's passed into the
 	 *  Resident's "draw yourself" method.
 	 */
-	private static final int  DEFAULT_CELL_SIZE = 400;
+//	private static final int  DEFAULT_CELL_SIZE = 400;
 
 	// The constructor is private so that the universe can be created
 	// only by an outer-class method [Neighborhood.createUniverse()].
@@ -55,50 +56,35 @@ public class PatternChooser extends JPanel
 		// miserably if the overall size of the grid is too big to fit
 		// on the screen.
 
-		final Dimension PREFERRED_SIZE =
-						new Dimension
-						(  DEFAULT_WIDTH_SIZE,
-							DEFAULT_CELL_SIZE
-						);
+//		final Dimension PREFERRED_SIZE =
+//						new Dimension
+//						(  DEFAULT_WIDTH_SIZE,
+//							DEFAULT_CELL_SIZE
+//						);
 
-//		addComponentListener
-//		(	new ComponentAdapter()
-//			{	public void componentResized(ComponentEvent e)
-//				{
-//					// Make sure that the cells fit evenly into the
-//					// total grid size so that each cell will be the
-//					// same size. For example, in a 64x64 grid, the
-//					// total size must be an even multiple of 63.
-//
-//					Rectangle bounds = getBounds();
-//					bounds.height /= outermostCell.widthInCells();
-//					bounds.height *= outermostCell.widthInCells();
-//					bounds.width  /= outermostCell.widthInCells();
-//					bounds.width *= outermostCell.widthInCells();
-//					
-//					if (bounds.height > bounds.width)
-//					{	
-//						bounds.height = bounds.width;
-//					}
-//					else
-//					{
-//						bounds.width = bounds.height;
-//					}
-//					
-//					setBounds( bounds );
-//				}
-//			}
-//		);
+		addComponentListener
+		(	new ComponentAdapter()
+			{	public void componentResized(ComponentEvent e)
+				{
+					// Make sure that the cells fit evenly into the
+					// total grid size so that each cell will be the
+					// same size. For example, in a 64x64 grid, the
+					// total size must be an even multiple of 63.
+
+					Rectangle bounds = getBounds();
+					
+					setBounds( bounds );
+				}
+			}
+		);
 
 		setBackground	( Color.white	 );
-		setPreferredSize( PREFERRED_SIZE );
-		setMaximumSize	( PREFERRED_SIZE );
-		setMinimumSize	( PREFERRED_SIZE );
+//		setPreferredSize( PREFERRED_SIZE );
+//		setMaximumSize	( PREFERRED_SIZE );
+//		setMinimumSize	( PREFERRED_SIZE );
 		setOpaque		( true			 );
 
-		
-		chooser = Files.fileChooser(".",".life","Life File","Pattern");
-		chooser.setPreferredSize(new Dimension(300, 300));
+//		chooser.setPreferredSize(new Dimension(300, 300));
 		
 //		chooser.addActionListener(new ActionListener() {
 //
@@ -130,7 +116,12 @@ public class PatternChooser extends JPanel
 	}
 	
 	public static PatternChooser instance()
-	{	theInstance.add(chooser);
+	{	
+		if (!(theInstance.getLayout() instanceof GridLayout)) {
+			theInstance.add(chooser);
+			theInstance.add(patternPreview);
+			theInstance.setLayout(layout);
+		}
 		return theInstance;
 	}
 	
