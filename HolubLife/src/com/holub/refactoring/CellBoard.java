@@ -59,21 +59,34 @@ public class CellBoard {
         }
     }
 
-//    public Boolean[][] getCellBoard(){
-//
-//    }
-//
-//    public void putPattern(int startRow, int startColumn, Boolean[][] pattern)
-//    {
-//        if(startRow < 0 || startColumn < 0)
-//            return;
-//
-//        for(int i = startRow;i < cells.length;i++){
-//            for(int j =startColumn ;j < cells[0].length; j ++){
-//                cells[i][j].transition();
-//            }
-//        }
-//    }
+    public Boolean[][] getCellBoard(){
+        Boolean[][] cellBoard = new Boolean[rowLength][columnLength];
+
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                cellBoard[i][j] = cells[i][j].isAlive();
+            }
+        }
+
+        return cellBoard;
+    }
+
+    public void putPattern(int startRow, int startColumn, Boolean[][] pattern)
+    {
+        if(startRow < 0 || startColumn < 0)
+            return;
+
+        int maxRowLength = startRow + pattern.length;
+        if(maxRowLength > rowLength) maxRowLength = rowLength;
+        int maxColumnLength = startColumn + pattern[0].length;
+        if(maxColumnLength > columnLength) maxColumnLength = columnLength;
+
+        for(int i = startRow;i < maxRowLength;i++){
+            for(int j =startColumn ;j < maxColumnLength; j ++){
+                cells[i][j].transition();
+            }
+        }
+    }
 
 
     void redraw(Graphics g, Rectangle here) {
