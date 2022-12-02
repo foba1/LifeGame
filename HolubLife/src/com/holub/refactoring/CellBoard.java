@@ -83,7 +83,7 @@ public class CellBoard {
 
         for(int i = startRow;i < maxRowLength;i++){
             for(int j =startColumn ;j < maxColumnLength; j ++){
-                cells[i][j].transition();
+                cells[i][j].setAmAlive(pattern[i][j]);
             }
         }
     }
