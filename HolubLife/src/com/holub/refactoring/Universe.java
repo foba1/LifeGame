@@ -1,10 +1,12 @@
 package com.holub.refactoring;
 
 import com.holub.io.Files;
+import com.holub.ui.Colors;
 import com.holub.ui.MenuSite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,15 +24,23 @@ import javax.swing.SwingUtilities;
 
 public class Universe extends JPanel {
 
+    private static final Color BORDER_COLOR = Colors.DARK_YELLOW;
+    private static final Color LIVE_COLOR = Color.RED;
+    private static final Color DEAD_COLOR = Colors.LIGHT_YELLOW;
+
     private static final Universe theInstance = new Universe();
     private static final int DEFAULT_GRID_SIZE = 64;
     private static final int DEFAULT_CELL_SIZE = 8;
+    private int rowLength;
+    private int columnLength;
 
     private final CellBoard outermostCell;
 
     private Universe() {
+        rowLength = DEFAULT_GRID_SIZE;
+        columnLength = DEFAULT_GRID_SIZE;
 
-        outermostCell = new CellBoard(DEFAULT_GRID_SIZE, DEFAULT_GRID_SIZE);
+        outermostCell = new CellBoard(rowLength, columnLength);
 
         final Dimension PREFERRED_SIZE = new Dimension(
             DEFAULT_GRID_SIZE * DEFAULT_CELL_SIZE,
@@ -58,7 +68,8 @@ public class Universe extends JPanel {
                     Rectangle bounds = getBounds();
                     bounds.x = 0;
                     bounds.y = 0;
-                    outermostCell.userClicked(e.getPoint(), bounds);
+                    int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
+                    outermostCell.flipSpecificCell(point[0], point[1]);
                     repaint();
                 }
             });
@@ -119,6 +130,15 @@ public class Universe extends JPanel {
         MenuSite.addLine(this, "Go", "Fast", modifier); // {=endSetup}
     }
 
+    private int[] getCellIndexFromUserClicked(Point here, Rectangle surface) {
+        int pixelsPerCell = surface.width / rowLength;
+        int row = here.y / pixelsPerCell;
+        int column = here.x / pixelsPerCell;
+
+        int[] point = {row,column};
+        return point;
+    }
+
     public static Universe instance() {
         return theInstance;
     }
@@ -175,7 +195,7 @@ public class Universe extends JPanel {
         panelBounds.x = 0;
         panelBounds.y = 0;
 
-        outermostCell.redraw(g, panelBounds); // {=Universe.redraw1}
+        redraw(g, panelBounds); // {=Universe.redraw1}
     }
 
     /**
@@ -196,11 +216,40 @@ public class Universe extends JPanel {
                     Rectangle panelBounds = getBounds();
                     panelBounds.x = 0;
                     panelBounds.y = 0;
-                    outermostCell.redraw(g, panelBounds); // {=Universe.redraw2}
+                    redraw(g, panelBounds); // {=Universe.redraw2}
                 } finally {
                     g.dispose();
                 }
             }
         });
+    }
+
+    void redraw(Graphics g, Rectangle here) {
+        Rectangle subcell = new Rectangle(here.x, here.y,
+            here.width / rowLength,
+            here.height / columnLength);
+
+        Boolean[][] cells = outermostCell.getCellBoard();
+
+        for (int row = 0; row < rowLength; ++row) {
+            for (int column = 0; column < columnLength; ++column) {
+
+                g = g.create();
+
+                g.setColor(cells[row][column] ? LIVE_COLOR : DEAD_COLOR);
+                g.fillRect(subcell.x + 1, subcell.y + 1, subcell.width - 1, subcell.height - 1);
+
+                // Doesn't draw a line on the far right and bottom of the
+                // grid, but that's life, so to speak. It's not worth the
+                // code for the special case.
+
+                g.setColor(BORDER_COLOR);
+                g.drawLine(subcell.x, subcell.y, subcell.x, subcell.y + subcell.height);
+                g.drawLine(subcell.x, subcell.y, subcell.x + subcell.width, subcell.y);
+
+                subcell.translate(subcell.width, 0);
+            }
+            subcell.translate(-here.width, subcell.height);
+        }
     }
 }

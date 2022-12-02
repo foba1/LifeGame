@@ -1,5 +1,7 @@
 package com.holub.refactoring;
 
+import com.holub.ui.Colors;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -88,34 +90,8 @@ public class CellBoard {
         }
     }
 
-
-    void redraw(Graphics g, Rectangle here) {
-        Rectangle subcell = new Rectangle(here.x, here.y,
-            here.width / rowLength,
-            here.height / columnLength);
-
-        for (int row = 0; row < cells.length; ++row) {
-            for (int column = 0; column < cells[0].length; ++column) {
-                cells[row][column].redraw(g, subcell);
-                subcell.translate(subcell.width, 0);
-            }
-            subcell.translate(-here.width, subcell.height);
-        }
-    }
-
-
-    void userClicked(Point here, Rectangle surface) {
-        int pixelsPerCell = surface.width / rowLength;
-        int row = here.y / pixelsPerCell;
-        int column = here.x / pixelsPerCell;
-        int rowOffset = here.y % pixelsPerCell;
-        int columnOffset = here.x % pixelsPerCell;
-
-        Point position = new Point(columnOffset, rowOffset);
-        Rectangle subcell = new Rectangle(0, 0, pixelsPerCell,
-            pixelsPerCell);
-
-        cells[row][column].userClicked(position, subcell); //{=Neighborhood.userClicked.call}
+    void flipSpecificCell(int row, int column){
+        cells[row][column].filpAmAlive();
     }
 
 
