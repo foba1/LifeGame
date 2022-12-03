@@ -262,4 +262,13 @@ public class Universe extends JPanel {
             subcell.translate(-here.width, subcell.height);
         }
     }
+    
+    public Boolean[][] getCellBoard(){
+        return outermostCell.getCellBoard();
+    }
+    
+    public void putPattern(int startRow, int startColumn, Boolean[][] pattern)
+    {
+    	outermostCell.putPattern(startRow, startColumn, pattern);
+    }
 }
