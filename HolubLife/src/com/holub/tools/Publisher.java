@@ -21,22 +21,22 @@ package com.holub.tools;
  * Here's an example of how you might use a <code>Publisher</code>:
  * <PRE>
  *	class EventGenerator
- *	{	interface Listener
- *		{	notify( String why );
- *		}
+ *    {	interface Listener
+ *        {	notify( String why );
+ *        }
  *
  *		private Publisher publisher = new Publisher();
  *
  *		public void addEventListener( Listener l )
- *		{	publisher.subscribe(l);
- *		}
+ *        {	publisher.subscribe(l);
+ *        }
  *
  *		public void removeEventListener ( Listener l )
- *		{	publisher.cancelSubscription(l);
- *		}
+ *        {	publisher.cancelSubscription(l);
+ *        }
  *
  *		public void someEventHasHappend(final String reason)
- *		{	publisher.publish
+ *        {	publisher.publish
  *			(	
  *				// Pass the publisher a Distributor that knows
  *				// how to notify EventGenerator listeners. The
@@ -45,13 +45,13 @@ package com.holub.tools;
  *				// in turn.
  *
  *				new Publisher.Distributor()
- *				{	public void deliverTo( Object subscriber )
- *					{	((Listener)subscriber).notify(reason);
- *					}
- *				}
+ *                {	public void deliverTo( Object subscriber )
+ *                    {	((Listener)subscriber).notify(reason);
+ *                    }
+ *                }
  *			);
- *		}
- *	}
+ *        }
+ *    }
  * </PRE>
  * Since you're specifying what a notification looks like
  * by defining a Listener interface, and then also defining
@@ -61,171 +61,175 @@ package com.holub.tools;
  * @include /etc/license.txt
  */
 
-public class Publisher
-{
-	public interface Distributor
-	{	void deliverTo( Object subscriber );	// the Visitor pattern's
-	}											// "visit" method.
+public class Publisher {
 
-	// The Node class is immutable. Once it's created, it can't
-	// be modified. Immutable classes have the property that, in
-	// a multithreaded system, access to the does not have to be
-	// synchronized, because they're read only.
-	//
-	// This particular class is really a struct so I'm allowing direct
-	// access to the fields. Since it's private, I can play
-	// fast and loose with the encapsulation without significantly
-	// impacting the maintainability of the code.
+  public interface Distributor {
 
-	private class Node
-	{	public final Object subscriber;
-		public final Node	next;
+    void deliverTo(Object subscriber);    // the Visitor pattern's
+  }                                            // "visit" method.
 
-		private Node( Object subscriber, Node next )
-		{	this.subscriber	= subscriber;
-			this.next		= next;
-		}
+  // The Node class is immutable. Once it's created, it can't
+  // be modified. Immutable classes have the property that, in
+  // a multithreaded system, access to the does not have to be
+  // synchronized, because they're read only.
+  //
+  // This particular class is really a struct so I'm allowing direct
+  // access to the fields. Since it's private, I can play
+  // fast and loose with the encapsulation without significantly
+  // impacting the maintainability of the code.
 
-		public Node remove( Object target )
-		{	if( target == subscriber )
-				return next;
+  private class Node {
 
-			if( next == null ) 						// target is not in list
-				throw new java.util.NoSuchElementException
-												(target.toString());
+    public final Object subscriber;
+    public final Node next;
 
-			return new Node(subscriber, next.remove(target));
-		}
+    private Node(Object subscriber, Node next) {
+      this.subscriber = subscriber;
+      this.next = next;
+    }
 
-		public  void accept( Distributor deliveryAgent ) // deliveryAgent is
-		{	deliveryAgent.deliverTo( subscriber );		 // a "visitor"
-		}
-	}
+    public Node remove(Object target) {
+      if (target == subscriber) {
+        return next;
+      }
 
-	private volatile Node subscribers = null;
+      if (next == null)                        // target is not in list
+      {
+        throw new java.util.NoSuchElementException
+            (target.toString());
+      }
 
-	/** Publish an event using the deliveryAgent. Note that this
-	 *  method isn't synchronized (and doesn't have to be). Those
-	 *  subscribers that are on the list at the time the publish
-	 *  operation is initiated will be notified. (So, in theory,
-	 *  it's possible for an object that cancels its subsciption
-	 *  to nonetheless be notified.) There's no universally "good"
-	 *  solution to this problem.
-	 */
+      return new Node(subscriber, next.remove(target));
+    }
 
-	public void publish( Distributor deliveryAgent )
-	{	for(Node cursor = subscribers; cursor != null; cursor = cursor.next)
-			cursor.accept( deliveryAgent );
-	}
+    public void accept(Distributor deliveryAgent) // deliveryAgent is
+    {
+      deliveryAgent.deliverTo(subscriber);         // a "visitor"
+    }
+  }
 
-	synchronized public void subscribe( Object subscriber )
-	{	subscribers = new Node( subscriber, subscribers );
-	}
+  private volatile Node subscribers = null;
 
-	synchronized public void cancelSubscription( Object subscriber )
-	{	subscribers = subscribers.remove( subscriber );
-	}
+  /**
+   * Publish an event using the deliveryAgent. Note that this method isn't synchronized (and doesn't
+   * have to be). Those subscribers that are on the list at the time the publish operation is
+   * initiated will be notified. (So, in theory, it's possible for an object that cancels its
+   * subsciption to nonetheless be notified.) There's no universally "good" solution to this
+   * problem.
+   */
 
-	//------------------------------------------------------------------
-	private static class Test
-	{
-		static final StringBuffer actualResults   = new StringBuffer();
-		static final StringBuffer expectedResults = new StringBuffer();
+  public void publish(Distributor deliveryAgent) {
+    for (Node cursor = subscribers; cursor != null; cursor = cursor.next) {
+      cursor.accept(deliveryAgent);
+    }
+  }
 
-		interface Observer
-		{	void notify( String arg );
-		}
+  synchronized public void subscribe(Object subscriber) {
+    subscribers = new Node(subscriber, subscribers);
+  }
 
-		static class Notifier
-		{	private Publisher publisher = new Publisher();
+  synchronized public void cancelSubscription(Object subscriber) {
+    subscribers = subscribers.remove(subscriber);
+  }
 
-			public void addObserver( Observer l )
-			{	publisher.subscribe(l);
-			}
+  //------------------------------------------------------------------
+  private static class Test {
 
-			public void removeObserver ( Observer l )
-			{	publisher.cancelSubscription(l);
-			}
+    static final StringBuffer actualResults = new StringBuffer();
+    static final StringBuffer expectedResults = new StringBuffer();
 
-			public void fire( final String arg )
-			{	publisher.publish
-				(	new Publisher.Distributor()
-					{	public void deliverTo( Object subscriber )
-						{	((Observer)subscriber).notify(arg);
-						}
-					}
-				);
-			}
-		}
+    interface Observer {
 
-		public static void main( String[] args )
-		{
-			Notifier source = new Notifier();
-			int      errors = 0;
+      void notify(String arg);
+    }
 
-			Observer listener1 =
-				new Observer()
-				{	public void notify( String arg )
-					{	actualResults.append( "1[" + arg + "]" );
-					}
-				};
+    static class Notifier {
 
-			Observer listener2 =
-				new Observer()
-				{	public void notify( String arg )
-					{	actualResults.append( "2[" + arg + "]" );
-					}
-				};
+      private Publisher publisher = new Publisher();
 
-			source.addObserver( listener1 );
-			source.addObserver( listener2 );
+      public void addObserver(Observer l) {
+        publisher.subscribe(l);
+      }
 
-			source.fire("a");
-			source.fire("b");
+      public void removeObserver(Observer l) {
+        publisher.cancelSubscription(l);
+      }
 
-			expectedResults.append("2[a]");
-			expectedResults.append("1[a]");
-			expectedResults.append("2[b]");
-			expectedResults.append("1[b]");
+      public void fire(final String arg) {
+        publisher.publish
+            (new Publisher.Distributor() {
+               public void deliverTo(Object subscriber) {
+                 ((Observer) subscriber).notify(arg);
+               }
+             }
+            );
+      }
+    }
 
-			source.removeObserver( listener1 );
+    public static void main(String[] args) {
+      Notifier source = new Notifier();
+      int errors = 0;
 
-			try
-			{	source.removeObserver(listener1);
-				System.err.print("Removed nonexistant node!");
-				++errors;
-			}
-			catch( java.util.NoSuchElementException e )
-			{	// should throw an exception, which we'll catch
-				// (and ignore) here.
-			}
+      Observer listener1 =
+          new Observer() {
+            public void notify(String arg) {
+              actualResults.append("1[" + arg + "]");
+            }
+          };
 
-			expectedResults.append("2[c]");
-			source.fire("c");
+      Observer listener2 =
+          new Observer() {
+            public void notify(String arg) {
+              actualResults.append("2[" + arg + "]");
+            }
+          };
 
-			if( !expectedResults.toString().equals(actualResults.toString()) )
-			{
-				System.err.print("add/remove/fire failure.\n");
-				System.err.print("Expected:[");
-				System.err.print( expectedResults.toString() );
-				System.err.print("]\nActual:  [");
-				System.err.print( actualResults.toString() );
-				System.err.print("]");
-				++errors;
-			}
+      source.addObserver(listener1);
+      source.addObserver(listener2);
 
-			source.removeObserver( listener2 );
-			source.fire("Hello World");
-			try
-			{	source.removeObserver( listener2 );
-				System.err.println("Undetected illegal removal.");
-				++errors;
-			}
-			catch( Exception e ) { /*everything's okay, do nothing*/ }
+      source.fire("a");
+      source.fire("b");
 
-			if( errors == 0 )
-				System.err.println("com.holub.tools.Publisher: OKAY");
-			System.exit( errors );
-		}
-	}
+      expectedResults.append("2[a]");
+      expectedResults.append("1[a]");
+      expectedResults.append("2[b]");
+      expectedResults.append("1[b]");
+
+      source.removeObserver(listener1);
+
+      try {
+        source.removeObserver(listener1);
+        System.err.print("Removed nonexistant node!");
+        ++errors;
+      } catch (java.util.NoSuchElementException e) {    // should throw an exception, which we'll catch
+        // (and ignore) here.
+      }
+
+      expectedResults.append("2[c]");
+      source.fire("c");
+
+      if (!expectedResults.toString().equals(actualResults.toString())) {
+        System.err.print("add/remove/fire failure.\n");
+        System.err.print("Expected:[");
+        System.err.print(expectedResults.toString());
+        System.err.print("]\nActual:  [");
+        System.err.print(actualResults.toString());
+        System.err.print("]");
+        ++errors;
+      }
+
+      source.removeObserver(listener2);
+      source.fire("Hello World");
+      try {
+        source.removeObserver(listener2);
+        System.err.println("Undetected illegal removal.");
+        ++errors;
+      } catch (Exception e) { /*everything's okay, do nothing*/ }
+
+      if (errors == 0) {
+        System.err.println("com.holub.tools.Publisher: OKAY");
+      }
+      System.exit(errors);
+    }
+  }
 }
