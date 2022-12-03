@@ -27,22 +27,19 @@ public class PatternPreview {
 					}
 				}
 			);
-		MenuSite.addLine( this, "Pattern", "Pattern 1",
-				new ActionListener()
-				{	public void actionPerformed(ActionEvent e)
-					{
-						SelectPattern(0);
+		
+		for (int i = 0; i < pattern.length; i++)
+		{
+			final int _i = i;
+			MenuSite.addLine( this, "Pattern", "Pattern " + (_i + 1),
+					new ActionListener()
+					{	public void actionPerformed(ActionEvent e)
+						{
+							SelectPattern(_i);
+						}
 					}
-				}
-			);
-		MenuSite.addLine( this, "Pattern", "Pattern 2",
-				new ActionListener()
-				{	public void actionPerformed(ActionEvent e)
-					{
-						SelectPattern(1);
-					}
-				}
-			);
+				);
+		}
 	}
 	
 	public static PatternPreview instance()
