@@ -80,7 +80,19 @@ public class Universe extends JPanel {
                 	repaint();
                 }
             });
-
+        
+        addMouseListener // {=Universe.mouse}
+	        (new MouseAdapter() {
+	        	public void mouseExited(MouseEvent e) {
+	        		if (PatternPreview.instance().IsPatternSelected())
+					{
+						PatternPreview.instance().Reset();
+						repaint();
+					}
+	            }
+	        }
+        );
+        
         addMouseMotionListener // {=Universe.mouse}
 		    (new MouseAdapter() {
 		    	public void mouseMoved(MouseEvent e) {
@@ -91,6 +103,7 @@ public class Universe extends JPanel {
 	                    bounds.y = 0;
 	                    int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
 						PatternPreview.instance().Show(point[0], point[1]);
+						repaint();
 					}
 				}
 			}
