@@ -68,16 +68,16 @@ public class Universe extends JPanel {
                 	Rectangle bounds = getBounds();
                     bounds.x = 0;
                     bounds.y = 0;
+                    int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
                 	if (PatternPreview.instance().IsPatternSelected())
                 	{
-                		PatternPreview.instance().Draw(e.getPoint(), bounds);
+                		PatternPreview.instance().Draw(point[0], point[1]);
                 	}
                 	else
                 	{
-                        int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
                         outermostCell.flipSpecificCell(point[0], point[1]);
-                        repaint();
                 	}
+                	repaint();
                 }
             });
 
@@ -89,7 +89,8 @@ public class Universe extends JPanel {
 						Rectangle bounds = getBounds();
 	                    bounds.x = 0;
 	                    bounds.y = 0;
-						PatternPreview.instance().Show(e.getPoint(), bounds);
+	                    int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
+						PatternPreview.instance().Show(point[0], point[1]);
 					}
 				}
 			}
@@ -161,7 +162,7 @@ public class Universe extends JPanel {
             );
     }
 
-    public int[] getCellIndexFromUserClicked(Point here, Rectangle surface) {
+    private int[] getCellIndexFromUserClicked(Point here, Rectangle surface) {
         int pixelsPerCell = surface.width / rowLength;
         int row = here.y / pixelsPerCell;
         int column = here.x / pixelsPerCell;
