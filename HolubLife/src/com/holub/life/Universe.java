@@ -9,12 +9,6 @@ import java.awt.event.*;
 import com.holub.io.Files;
 import com.holub.ui.MenuSite;
 
-import com.holub.life.Cell;
-import com.holub.life.Storable;
-import com.holub.life.Clock;
-import com.holub.life.Neighborhood;
-import com.holub.life.Resident;
-
 /**
  * The Universe is a mediator that sits between the Swing event model and the
  * Life classes. It is
@@ -123,8 +117,8 @@ public class Universe extends JPanel {
 					}
 				});
 
-		Clock.instance().addClockListener // {=Universe.clock.subscribe}
-		(new Clock.Listener() {
+		ClockLegacy.instance().addClockListener // {=Universe.clock.subscribe}
+		(new ClockLegacy.Listener() {
 			public void tick() {
 				if (outermostCell.figureNextState(Cell.DUMMY, Cell.DUMMY, Cell.DUMMY, Cell.DUMMY,
 						Cell.DUMMY, Cell.DUMMY, Cell.DUMMY, Cell.DUMMY)) {
@@ -149,7 +143,7 @@ public class Universe extends JPanel {
 			FileInputStream in = new FileInputStream(
 					Files.userSelected(".", ".life", "Life File", "Load"));
 
-			Clock.instance().stop(); // stop the game and
+			ClockLegacy.instance().stop(); // stop the game and
 			outermostCell.clear(); // clear the board.
 
 			Storable memento = outermostCell.createMemento();
@@ -169,7 +163,7 @@ public class Universe extends JPanel {
 			FileOutputStream out = new FileOutputStream(
 					Files.userSelected(".", ".life", "Life File", "Write"));
 
-			Clock.instance().stop(); // stop the game
+			ClockLegacy.instance().stop(); // stop the game
 
 			Storable memento = outermostCell.createMemento();
 			outermostCell.transfer(memento, new Point(0, 0), Cell.STORE);

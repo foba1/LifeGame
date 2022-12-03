@@ -1,21 +1,11 @@
 package com.holub.life;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 import java.io.*;
-import javax.swing.*;
 
-import com.holub.io.Files;
-import com.holub.life.Cell;
-import com.holub.ui.MenuSite;
 import com.holub.ui.Colors;
 import com.holub.asynch.ConditionVariable;
-
-import com.holub.life.Cell;
-import com.holub.life.Clock;
-import com.holub.life.Direction;
-import com.holub.life.Storable;
 
 /***
  * A group of {@link Cell} objects. Cells are grouped into neighborhoods

@@ -1,6 +1,5 @@
 package com.holub.life;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
@@ -26,7 +25,7 @@ import com.holub.tools.Publisher;
  * @include /etc/license.txt
  */
 
-public class Clock {
+public class ClockLegacy {
 
   private Timer clock = new Timer();
   private TimerTask tick = null;
@@ -35,20 +34,20 @@ public class Clock {
   // it creates a menu, and it can't do that until the menus
   // are established.
   //
-  private Clock() {
+  private ClockLegacy() {
     createMenus();
   }
 
-  private static Clock instance;
+  private static ClockLegacy instance;
 
   /**
    * The clock is a singleton. Get a reference to it by calling
    * <code>Clock.instance()</code>. It's illegal to call
    * <code>new Clock()</code>.
    */
-  public synchronized static Clock instance() {
+  public synchronized static ClockLegacy instance() {
     if (instance == null) {
-      instance = new Clock();
+      instance = new ClockLegacy();
     }
     return instance;
   }
@@ -132,7 +131,7 @@ public class Clock {
   /**
    * Implement this interface to be notified about clock ticks.
    *
-   * @see Clock
+   * @see ClockLegacy
    */
   public interface Listener {
 

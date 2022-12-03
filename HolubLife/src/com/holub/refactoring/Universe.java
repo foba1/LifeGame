@@ -111,17 +111,16 @@ public class Universe extends JPanel {
                     String name = ((JMenuItem) e.getSource()).getName();
                     char toDo = name.charAt(0);
                     if (toDo == 'T') {
-                        outermostCell.figureCellsNextState();
-                        outermostCell.transitionCells();
-                        repaint();
+                        Clock.instance().tick();
                     } else {
-//                        startTicking(toDo == 'A' ? 500 :      // agonizing
-//                            toDo == 'S' ? 150 :      // slow
-//                                toDo == 'M' ? 70 :      // medium
-//                                    toDo == 'F' ? 30 : 0); // fast
+                        Clock.instance().startTicking(toDo == 'A' ? 500 :      // agonizing
+                            toDo == 'S' ? 150 :      // slow
+                                toDo == 'M' ? 70 :      // medium
+                                    toDo == 'F' ? 30 : 0); // fast
                     }
                 }
             };
+
         // {=midSetup}
         MenuSite.addLine(this, "Go", "Halt", modifier);
         MenuSite.addLine(this, "Go", "Tick (Single Step)", modifier);
@@ -129,6 +128,16 @@ public class Universe extends JPanel {
         MenuSite.addLine(this, "Go", "Slow", modifier);
         MenuSite.addLine(this, "Go", "Medium", modifier);
         MenuSite.addLine(this, "Go", "Fast", modifier); // {=endSetup}
+
+        Clock.instance().addClockListener // {=Universe.clock.subscribe}
+            (new Clock.Listener() {
+                 public void tick() {
+                     outermostCell.figureCellsNextState();
+                     outermostCell.transitionCells();
+                     repaint();
+                 }
+             }
+            );
     }
 
     private int[] getCellIndexFromUserClicked(Point here, Rectangle surface) {

@@ -1,10 +1,8 @@
 package com.holub.refactoring;
 
-import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import java.util.Timer;        // overrides java.awt.timer
-import com.holub.ui.MenuSite;
 import com.holub.tools.Publisher;
 
 public class Clock {
@@ -13,6 +11,20 @@ public class Clock {
 
     private Clock() {
 
+    }
+
+    private static Clock instance;
+
+    /**
+     * The clock is a singleton. Get a reference to it by calling
+     * <code>Clock.instance()</code>. It's illegal to call
+     * <code>new Clock()</code>.
+     */
+    public synchronized static Clock instance() {
+        if (instance == null) {
+            instance = new Clock();
+        }
+        return instance;
     }
 
     public void startTicking(int millisecondsBetweenTicks) {
@@ -67,4 +79,6 @@ public class Clock {
             MenuSelectionManager.defaultManager().getSelectedPath();
         return (path != null && path.length > 0);
     }
+
+
 }
