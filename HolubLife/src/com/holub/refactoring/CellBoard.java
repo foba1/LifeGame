@@ -86,9 +86,9 @@ public class CellBoard {
         int maxColumnLength = startColumn + pattern[0].length;
         if(maxColumnLength > columnLength) maxColumnLength = columnLength;
 
-        for(int i = startRow;i < maxRowLength;i++){
-            for(int j =startColumn ;j < maxColumnLength; j ++){
-                cells[i][j].setAmAlive(pattern[i][j]);
+        for(int i = startRow; i < maxRowLength; i++){
+            for(int j = startColumn; j < maxColumnLength; j++){
+                cells[i][j].setAmAlive(pattern[i - startRow][j - startColumn]);
             }
         }
     }

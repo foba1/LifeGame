@@ -10,7 +10,7 @@ import com.holub.ui.MenuSite;
 public class PatternPreview {
 	private static final PatternPreview theInstance = new PatternPreview();
 	
-	private int curPreviewPattern = -1;
+	private int curPattern = -1;
 	
 	private PatternPreview()
 	{
@@ -54,26 +54,36 @@ public class PatternPreview {
 	
 	public void Show(int row, int column)
 	{
-		System.out.println("Show pattern " + curPreviewPattern);
+		System.out.println("Show pattern " + curPattern);
 	}
 	
 	public void Draw(int row, int column)
 	{
-		System.out.println("Draw pattern " + curPreviewPattern);
+		System.out.println("Draw pattern " + curPattern);
+		if (curPattern == 0)
+		{
+			Boolean[][] pattern = {{true, true}, {true, true}};
+			Universe.instance().putPattern(row, column, pattern);
+		}
+		else if (curPattern == 1)
+		{
+			Boolean[][] pattern = {{false, true, false}, {false, false, true}, {true, true, true}};
+			Universe.instance().putPattern(row, column, pattern);
+		}
 	}
 	
 	public boolean IsPatternSelected()
-	{	return curPreviewPattern != -1;
+	{	return curPattern != -1;
 	}
 	
 	private void SelectPattern(int pattern) {
-		if (curPreviewPattern == pattern)
+		if (curPattern == pattern)
 		{
-			curPreviewPattern = -1;
+			curPattern = -1;
 		}
 		else
 		{
-			curPreviewPattern = pattern;
+			curPattern = pattern;
 		}
 	}
 }
