@@ -65,15 +65,36 @@ public class Universe extends JPanel {
         addMouseListener // {=Universe.mouse}
             (new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
-                    Rectangle bounds = getBounds();
+                	Rectangle bounds = getBounds();
                     bounds.x = 0;
                     bounds.y = 0;
-                    int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
-                    outermostCell.flipSpecificCell(point[0], point[1]);
-                    repaint();
+                	if (PatternPreview.instance().IsPatternSelected())
+                	{
+                		PatternPreview.instance().Draw(e.getPoint(), bounds);
+                	}
+                	else
+                	{
+                        int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
+                        outermostCell.flipSpecificCell(point[0], point[1]);
+                        repaint();
+                	}
                 }
             });
 
+        addMouseMotionListener // {=Universe.mouse}
+		    (new MouseAdapter() {
+		    	public void mouseMoved(MouseEvent e) {
+					if (PatternPreview.instance().IsPatternSelected())
+					{
+						Rectangle bounds = getBounds();
+	                    bounds.x = 0;
+	                    bounds.y = 0;
+						PatternPreview.instance().Show(e.getPoint(), bounds);
+					}
+				}
+			}
+		);
+        
         MenuSite.addLine(this, "Grid", "Clear",
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
