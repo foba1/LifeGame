@@ -80,7 +80,19 @@ public class Universe extends JPanel {
                 	repaint();
                 }
             });
-
+        
+        addMouseListener // {=Universe.mouse}
+	        (new MouseAdapter() {
+	        	public void mouseExited(MouseEvent e) {
+	        		if (PatternPreview.instance().IsPatternSelected())
+					{
+						PatternPreview.instance().Reset();
+						repaint();
+					}
+	            }
+	        }
+        );
+        
         addMouseMotionListener // {=Universe.mouse}
 		    (new MouseAdapter() {
 		    	public void mouseMoved(MouseEvent e) {

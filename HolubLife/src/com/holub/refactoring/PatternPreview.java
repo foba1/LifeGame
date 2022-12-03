@@ -46,6 +46,11 @@ public class PatternPreview {
 	{	return theInstance;
 	}
 	
+	public void Reset()
+	{
+		Universe.instance().putPattern(0, 0, curCellBoard);
+	}
+	
 	public void Show(int row, int column)
 	{
 		if (curPattern < 0 || curPattern > pattern.length) return;
