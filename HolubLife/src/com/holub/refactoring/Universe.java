@@ -161,7 +161,7 @@ public class Universe extends JPanel {
             );
     }
 
-    private int[] getCellIndexFromUserClicked(Point here, Rectangle surface) {
+    public int[] getCellIndexFromUserClicked(Point here, Rectangle surface) {
         int pixelsPerCell = surface.width / rowLength;
         int row = here.y / pixelsPerCell;
         int column = here.x / pixelsPerCell;
