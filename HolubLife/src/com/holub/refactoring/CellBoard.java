@@ -32,8 +32,11 @@ public class CellBoard {
 
                 ArrayList<Cell> aroundCells = new ArrayList<Cell>();
                 for (int a = i - 1; a <= i + 1; a++) {
-                    for (int b = j - 1; b < j + 1; b++) {
+                    for (int b = j - 1; b <= j + 1; b++) {
                         if (a == -1 || a == rowLength || b == -1 || b == columnLength) {
+                            continue;
+                        }
+                        if (a == i && b == j){
                             continue;
                         }
                         aroundCells.add(cells[a][b]);

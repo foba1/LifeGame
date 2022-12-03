@@ -110,9 +110,10 @@ public class Universe extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     String name = ((JMenuItem) e.getSource()).getName();
                     char toDo = name.charAt(0);
-
                     if (toDo == 'T') {
-//                        tick();                      // single tick
+                        outermostCell.figureCellsNextState();
+                        outermostCell.transitionCells();
+                        repaint();
                     } else {
 //                        startTicking(toDo == 'A' ? 500 :      // agonizing
 //                            toDo == 'S' ? 150 :      // slow

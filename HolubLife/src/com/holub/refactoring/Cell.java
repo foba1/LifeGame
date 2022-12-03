@@ -26,7 +26,9 @@ public class Cell {
         int neighbors = 0;
 
         for (Cell cell : aroundCells) {
-            cell.isAlive();
+            if(cell.isAlive()){
+                neighbors++;
+            }
         }
 
         willBeAlive = (neighbors == 3 || (amAlive && neighbors == 2));
