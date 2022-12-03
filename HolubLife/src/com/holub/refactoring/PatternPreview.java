@@ -11,6 +11,11 @@ public class PatternPreview {
 	private static final PatternPreview theInstance = new PatternPreview();
 	
 	private int curPattern = -1;
+	private Boolean[][] curCellBoard;
+	private Boolean[][][] pattern = {
+			{{true, true}, {true, true}},
+			{{false, true, false}, {false, false, true}, {true, true, true}}
+	};
 	
 	private PatternPreview()
 	{
@@ -38,14 +43,6 @@ public class PatternPreview {
 					}
 				}
 			);
-		MenuSite.addLine( this, "Pattern", "Pattern 3",
-				new ActionListener()
-				{	public void actionPerformed(ActionEvent e)
-					{
-						SelectPattern(2);
-					}
-				}
-			);
 	}
 	
 	public static PatternPreview instance()
@@ -54,22 +51,18 @@ public class PatternPreview {
 	
 	public void Show(int row, int column)
 	{
-		System.out.println("Show pattern " + curPattern);
+		if (curPattern < 0 || curPattern > pattern.length) return;
+		
+		Universe.instance().putPattern(0, 0, curCellBoard);
+		Universe.instance().putPattern(row, column, pattern[curPattern]);
 	}
 	
 	public void Draw(int row, int column)
 	{
-		System.out.println("Draw pattern " + curPattern);
-		if (curPattern == 0)
-		{
-			Boolean[][] pattern = {{true, true}, {true, true}};
-			Universe.instance().putPattern(row, column, pattern);
-		}
-		else if (curPattern == 1)
-		{
-			Boolean[][] pattern = {{false, true, false}, {false, false, true}, {true, true, true}};
-			Universe.instance().putPattern(row, column, pattern);
-		}
+		if (curPattern < 0 || curPattern > pattern.length) return;
+		
+		Universe.instance().putPattern(row, column, pattern[curPattern]);
+		curCellBoard = Universe.instance().getCellBoard();
 	}
 	
 	public boolean IsPatternSelected()
@@ -80,10 +73,12 @@ public class PatternPreview {
 		if (curPattern == pattern)
 		{
 			curPattern = -1;
+			curCellBoard = null;
 		}
 		else
 		{
 			curPattern = pattern;
+			curCellBoard = Universe.instance().getCellBoard();
 		}
 	}
 }

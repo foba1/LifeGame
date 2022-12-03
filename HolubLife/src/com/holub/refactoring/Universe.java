@@ -91,6 +91,7 @@ public class Universe extends JPanel {
 	                    bounds.y = 0;
 	                    int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
 						PatternPreview.instance().Show(point[0], point[1]);
+						repaint();
 					}
 				}
 			}
