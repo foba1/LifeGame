@@ -7,8 +7,8 @@ import java.awt.event.*;
 
 import com.holub.ui.MenuSite;
 
-public class PatternPreview {
-	private static final PatternPreview theInstance = new PatternPreview();
+public class PatternManager {
+	private static final PatternManager theInstance = new PatternManager();
 	
 	private int curPattern = -1;
 	private Boolean[][] curCellBoard;
@@ -25,7 +25,7 @@ public class PatternPreview {
 			{{false, true, true, true, true, true, true}, {true, false, false, false, false, false, true}, {false, false, false, false, false, false, true}, {true, false, false, false, false, true, false}, {false, false, true, true, false, false, false}}
 	};
 	
-	private PatternPreview()
+	private PatternManager()
 	{
 		MenuSite.addLine( this, "Pattern", "Reset",
 				new ActionListener()
@@ -50,7 +50,7 @@ public class PatternPreview {
 		}
 	}
 	
-	public static PatternPreview instance()
+	public static PatternManager instance()
 	{	return theInstance;
 	}
 	
