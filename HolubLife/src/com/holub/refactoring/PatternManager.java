@@ -12,19 +12,7 @@ public class PatternManager {
 	
 	private int curPattern = -1;
 	private Boolean[][] curCellBoard;
-	//private Boolean[][][] pattern = {
-			//{{true, true}, {true, true}},
-			//{{false, true, true, false}, {true, false, false, true}, {false, true, true, false}},
-			//{{true, true, false}, {true, false, true}, {false, true, false}},
-			//{{false, true, false}, {true, false, true}, {false, true, false}},
-			//{{true, true, true}},
-			//{{false, true, true, true}, {true, true, true, false}},
-			//{{true, true, false, false}, {true, true, false, false}, {false, false, true, true}, {false, false, true, true}},
-			//{{false, true, false}, {false, false, true}, {true, true, true}},
-			//{{false, true, true, true, true}, {true, false, false, false, true}, {false, false, false, false, true}, {true, false, false, true, false}},
-			//{{false, true, true, true, true, true, true}, {true, false, false, false, false, false, true}, {false, false, false, false, false, false, true}, {true, false, false, false, false, true, false}, {false, false, true, true, false, false, false}}
-	//};
-	private Pattern[] pattern = {new Block()};
+	private Pattern[] pattern = {new Block(), new Beehive(), new Boat(), new Blinker(), new Beacon(), new Glider(), new Spaceship()};
 	
 	private PatternManager()
 	{
