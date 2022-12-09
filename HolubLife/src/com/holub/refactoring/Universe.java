@@ -229,8 +229,13 @@ public class Universe extends JPanel {
             
             Image in = ImageIO.read(Files.userSelected(".", ".png", "PNG File", "Load Image"));
             
-            Boolean[][] pattern = ImagePattern.imageToPattern(in);
-
+            int height = in.getHeight(null);
+            int width = in.getWidth(null);
+            		
+            if (height == -1 || width == -1) {
+            	throw new Exception("NotImageFile");
+            }
+            
             BufferedImage image = new BufferedImage(64, 64, BufferedImage.TYPE_BYTE_GRAY);	
             image.getGraphics().drawImage(in.getScaledInstance(64, 64, Image.SCALE_DEFAULT), 0, 0 , null);
             byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
@@ -264,8 +269,13 @@ public class Universe extends JPanel {
             Universe.instance().putPattern(0, 0, pattern);
             
 //            in.close();
-        } catch (IOException theException) {
+        }
+        catch (IOException theException) {
             JOptionPane.showMessageDialog(null, "Read Failed!",
+                "The Game of Life", JOptionPane.ERROR_MESSAGE);
+        }
+        catch (Exception e) {
+        	JOptionPane.showMessageDialog(null, "Read Failed!\nSelected file is not an image files\nPlease select an image file.",
                 "The Game of Life", JOptionPane.ERROR_MESSAGE);
         }
         repaint();
