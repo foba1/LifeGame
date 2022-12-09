@@ -6,6 +6,7 @@ import com.holub.ui.MenuSite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -14,9 +15,14 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -125,6 +131,14 @@ public class Universe extends JPanel {
                     }
                 });
 
+        MenuSite.addLine // {=Universe.load.setup}
+            (this, "Grid", "Load Image",
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        doLoadImage();
+                    }
+                });
+        
         MenuSite.addLine(this, "Grid", "Store",
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -201,6 +215,58 @@ public class Universe extends JPanel {
 //            outermostCell.transfer(memento, new Point(0, 0), Cell.LOAD);
 
             in.close();
+        } catch (IOException theException) {
+            JOptionPane.showMessageDialog(null, "Read Failed!",
+                "The Game of Life", JOptionPane.ERROR_MESSAGE);
+        }
+        repaint();
+    }
+    
+    private void doLoadImage() {
+        try {
+//            FileInputStream in = new FileInputStream(
+//                Files.userSelected(".", ".jpg", "JPG File", "Load Image"));
+            
+            Image in = ImageIO.read(Files.userSelected(".", ".png", "PNG File", "Load Image"));
+            
+            BufferedImage image = new BufferedImage(64, 64, BufferedImage.TYPE_BYTE_GRAY);	
+            image.getGraphics().drawImage(in.getScaledInstance(64, 64, Image.SCALE_DEFAULT), 0, 0 , null);
+            
+            System.out.println(image.getColorModel());
+            
+            Boolean[][] pattern = new Boolean[64][64];
+            byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+            
+            for(int i = 0; i < 64; i++)
+            {
+                for(int j = 0; j < 64; j++)
+                {
+                	
+                	System.out.println(pixels[i*64 + j]);
+                	
+                	if (pixels[i*64 + j] < 0)
+                	{
+                		pattern[i][j] = false;
+                	}
+                	else
+                	{
+                		pattern[i][j] = true;
+                	}
+                }
+            }
+            
+
+            Clock.instance().stop(); // stop the game and
+            outermostCell.clear(); // clear the board.
+            
+
+//            Storable memento = outermostCell.createMemento();
+//            memento.load(in);
+//            outermostCell.transfer(memento, new Point(0, 0), Cell.LOAD);
+
+            Universe.instance().putPattern(0, 0, pattern);
+            
+//            in.close();
         } catch (IOException theException) {
             JOptionPane.showMessageDialog(null, "Read Failed!",
                 "The Game of Life", JOptionPane.ERROR_MESSAGE);
