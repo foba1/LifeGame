@@ -235,8 +235,6 @@ public class Universe extends JPanel {
             int heightStart = 0;
             int widthStart = 0;
             		
-            System.out.println(height + ", " + width);
-
             if (height == -1 || width == -1)
             {
             	throw new Exception("NotImageFile");
