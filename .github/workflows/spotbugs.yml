@@ -1,0 +1,10 @@
+name: Spotbugs Workflow
+on: push
+jobs:
+  spotbugs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Push SpotBugs report
+        uses: jwgmeligmeyling/spotbugs-github-action@v1.2
+        with:
+          path: '**/spotbugsXml.xml'
