@@ -19,17 +19,25 @@ class PatternManagerTest {
 	}
 	
 	@BeforeEach
-	void ClearCellBoard() {
+	void Setup() {
 		try {
+			Method method = PatternManager.instance().getClass().getDeclaredMethod("SelectPattern", int.class);
+			method.setAccessible(true);
+			method.invoke(PatternManager.instance(), -1);
+			
 			Field field = Universe.instance().getClass().getDeclaredField("outermostCell");
 			field.setAccessible(true);
 			CellBoard board = (CellBoard)field.get(Universe.instance());
 			board.clear();
-		} catch (NoSuchFieldException e) {
+		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
 		}
 	}
@@ -39,15 +47,15 @@ class PatternManagerTest {
 		try {
 			Method method = PatternManager.instance().getClass().getDeclaredMethod("SelectPattern", int.class);
 			method.setAccessible(true);
-			method.invoke(PatternManager.instance(), 2);
 			
 			Field field = PatternManager.instance().getClass().getDeclaredField("curPattern");
 			field.setAccessible(true);
+			
+			method.invoke(PatternManager.instance(), 0);
 			int value = (int)field.get(PatternManager.instance());
-			assertEquals(2, value);
+			assertEquals(0, value);
 			
-			method.invoke(PatternManager.instance(), 2);
-			
+			method.invoke(PatternManager.instance(), 0);
 			value = (int)field.get(PatternManager.instance());
 			assertEquals(-1, value);
 		} catch (NoSuchMethodException e) {
@@ -67,27 +75,67 @@ class PatternManagerTest {
 	void PreviewTest() {
 		Boolean[][] beforeCellBoard = Universe.instance().getCellBoard();
 		
-		PatternManager.instance().Show(32, 32);
+		PatternManager.instance().Show(0, 0);
 		Boolean[][] afterCellBoard = Universe.instance().getCellBoard();
 		assertTrue(IsSameCellBoard(beforeCellBoard, afterCellBoard));
 		
 		try {
 			Method method = PatternManager.instance().getClass().getDeclaredMethod("SelectPattern", int.class);
 			method.setAccessible(true);
-			method.invoke(PatternManager.instance(), 0);
 			
 			Field field = PatternManager.instance().getClass().getDeclaredField("curPattern");
 			field.setAccessible(true);
+			
+			method.invoke(PatternManager.instance(), 0);
 			int value = (int)field.get(PatternManager.instance());
 			assertEquals(0, value);
 			
-			PatternManager.instance().Show(32, 32);
+			PatternManager.instance().Show(0, 0);
 			afterCellBoard = Universe.instance().getCellBoard();
 			assertFalse(IsSameCellBoard(beforeCellBoard, afterCellBoard));
 			
 			PatternManager.instance().Reset();
 			afterCellBoard = Universe.instance().getCellBoard();
 			assertTrue(IsSameCellBoard(beforeCellBoard, afterCellBoard));
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void DrawTest() {
+		Boolean[][] beforeCellBoard = Universe.instance().getCellBoard();
+		
+		PatternManager.instance().Draw(0, 0);
+		Boolean[][] afterCellBoard = Universe.instance().getCellBoard();
+		assertTrue(IsSameCellBoard(beforeCellBoard, afterCellBoard));
+		
+		try {
+			Method method = PatternManager.instance().getClass().getDeclaredMethod("SelectPattern", int.class);
+			method.setAccessible(true);
+			
+			Field field = PatternManager.instance().getClass().getDeclaredField("curPattern");
+			field.setAccessible(true);
+			
+			method.invoke(PatternManager.instance(), 0);
+			int value = (int)field.get(PatternManager.instance());
+			assertEquals(0, value);
+			
+			PatternManager.instance().Draw(0, 0);
+			afterCellBoard = Universe.instance().getCellBoard();
+			assertFalse(IsSameCellBoard(beforeCellBoard, afterCellBoard));
+			
+			PatternManager.instance().Reset();
+			afterCellBoard = Universe.instance().getCellBoard();
+			assertFalse(IsSameCellBoard(beforeCellBoard, afterCellBoard));
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
