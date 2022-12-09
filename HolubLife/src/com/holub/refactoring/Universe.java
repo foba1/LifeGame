@@ -20,6 +20,7 @@ import java.awt.image.DataBufferByte;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
@@ -231,44 +232,59 @@ public class Universe extends JPanel {
             
             int height = in.getHeight(null);
             int width = in.getWidth(null);
+            int heightStart = 0;
+            int widthStart = 0;
             		
-            if (height == -1 || width == -1) {
+            System.out.println(height + ", " + width);
+
+            if (height == -1 || width == -1)
+            {
             	throw new Exception("NotImageFile");
             }
             
-            BufferedImage image = new BufferedImage(64, 64, BufferedImage.TYPE_BYTE_GRAY);	
-            image.getGraphics().drawImage(in.getScaledInstance(64, 64, Image.SCALE_DEFAULT), 0, 0 , null);
+            if (height > width)
+            {
+            	double ratio = (double)height / 64;
+            	
+            	height /= ratio;
+            	width /= ratio;
+            	heightStart = 0;
+            	widthStart = 32 - width / 2;
+            }
+            else
+            {
+            	double ratio = (double)width / 64;
+            	
+            	height /= ratio;
+            	width /= ratio;
+            	heightStart = 32 - height / 2;
+            	widthStart = 0;
+            }
+            
+            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);	
+            image.getGraphics().drawImage(in.getScaledInstance(width, height, Image.SCALE_DEFAULT), 0, 0 , null);
             byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
             
             Boolean[][] pattern = new Boolean[64][64];
-            
             for(int i = 0; i < 64; i++)
+            	Arrays.fill(pattern[i], false);
+            
+            for(int i = 0; i < height; i++)
             {
-                for(int j = 0; j < 64; j++)
+                for(int j = 0; j < width; j++)
                 {
                 	
-                	if (pixels[i*64 + j] < 0)
+                	if (pixels[i*width + j] >= 0)
                 	{
-                		pattern[i][j] = false;
-                	}
-                	else
-                	{
-                		pattern[i][j] = true;
+                		pattern[i+heightStart][j+widthStart] = true;
                 	}
                 }
             }
             
             Clock.instance().stop(); // stop the game and
             outermostCell.clear(); // clear the board.
-            
-
-//            Storable memento = outermostCell.createMemento();
-//            memento.load(in);
-//            outermostCell.transfer(memento, new Point(0, 0), Cell.LOAD);
 
             Universe.instance().putPattern(0, 0, pattern);
-            
-//            in.close();
         }
         catch (IOException theException) {
             JOptionPane.showMessageDialog(null, "Read Failed!",
