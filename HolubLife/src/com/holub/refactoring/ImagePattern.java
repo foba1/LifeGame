@@ -3,30 +3,25 @@ package com.holub.refactoring;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.File;
 import java.util.Arrays;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class ImagePattern {
-	
-	public ImagePattern() {}
 
-	public static Boolean[][] imageToPattern(Image in){
+	public static Boolean[][] imageToPattern(File in) throws Exception{
+		Image imagefile = ImageIO.read(in);
 
-        int height = in.getHeight(null);
-        int width = in.getWidth(null);
+        int height = imagefile.getHeight(null);
+        int width = imagefile.getWidth(null);
         int heightStart = 0;
         int widthStart = 0;
         		
-        try {
-	        if (height == -1 || width == -1)
-	        {
-	        	throw new Exception("NotImageFile");
-	        }
-        }
-        catch (Exception e) {
-        	JOptionPane.showMessageDialog(null, "Read Failed!\nSelected file is not an image files\nPlease select an image file.",
-                    "The Game of Life", JOptionPane.ERROR_MESSAGE);
+        if (height == -1 || width == -1)
+        {
+        	throw new Exception("NotImageFile");
         }
         
         if (height > width)
@@ -49,7 +44,8 @@ public class ImagePattern {
         }
         
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);	
-        image.getGraphics().drawImage(in.getScaledInstance(width, height, Image.SCALE_DEFAULT), 0, 0 , null);
+        image.getGraphics().drawImage(imagefile.getScaledInstance(width, height, Image.SCALE_DEFAULT), 0, 0 , null);
+ 
         byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         
         Boolean[][] pattern = new Boolean[64][64];
@@ -71,3 +67,4 @@ public class ImagePattern {
 		return pattern;
 	}
 }
+

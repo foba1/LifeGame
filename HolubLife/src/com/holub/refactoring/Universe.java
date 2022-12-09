@@ -6,7 +6,6 @@ import com.holub.ui.MenuSite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -15,14 +14,10 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-
-import javax.imageio.ImageIO;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -132,7 +127,7 @@ public class Universe extends JPanel {
                     }
                 });
 
-        MenuSite.addLine // {=Universe.load.setup}
+        MenuSite.addLine
             (this, "Grid", "Load Image",
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -225,59 +220,9 @@ public class Universe extends JPanel {
     
     private void doLoadImage() {
         try {
-//            FileInputStream in = new FileInputStream(
-//                Files.userSelected(".", ".jpg", "JPG File", "Load Image"));
             
-            Image in = ImageIO.read(Files.userSelected(".", ".png", "PNG File", "Load Image"));
-            
-            int height = in.getHeight(null);
-            int width = in.getWidth(null);
-            int heightStart = 0;
-            int widthStart = 0;
-            		
-            if (height == -1 || width == -1)
-            {
-            	throw new Exception("NotImageFile");
-            }
-            
-            if (height > width)
-            {
-            	double ratio = (double)height / 64;
-            	
-            	height /= ratio;
-            	width /= ratio;
-            	heightStart = 0;
-            	widthStart = 32 - width / 2;
-            }
-            else
-            {
-            	double ratio = (double)width / 64;
-            	
-            	height /= ratio;
-            	width /= ratio;
-            	heightStart = 32 - height / 2;
-            	widthStart = 0;
-            }
-            
-            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);	
-            image.getGraphics().drawImage(in.getScaledInstance(width, height, Image.SCALE_DEFAULT), 0, 0 , null);
-            byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-            
-            Boolean[][] pattern = new Boolean[64][64];
-            for(int i = 0; i < 64; i++)
-            	Arrays.fill(pattern[i], false);
-            
-            for(int i = 0; i < height; i++)
-            {
-                for(int j = 0; j < width; j++)
-                {
-                	
-                	if (pixels[i*width + j] >= 0)
-                	{
-                		pattern[i+heightStart][j+widthStart] = true;
-                	}
-                }
-            }
+            File imageFile = Files.userSelected(".", ".png", "PNG File", "Load Image");
+            Boolean[][] pattern = ImagePattern.imageToPattern(imageFile);
             
             Clock.instance().stop(); // stop the game and
             outermostCell.clear(); // clear the board.
