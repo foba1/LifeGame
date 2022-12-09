@@ -15,6 +15,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -229,6 +231,28 @@ public class Universe extends JPanel {
             
             Boolean[][] pattern = ImagePattern.imageToPattern(in);
 
+            BufferedImage image = new BufferedImage(64, 64, BufferedImage.TYPE_BYTE_GRAY);	
+            image.getGraphics().drawImage(in.getScaledInstance(64, 64, Image.SCALE_DEFAULT), 0, 0 , null);
+            byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+            
+            Boolean[][] pattern = new Boolean[64][64];
+            
+            for(int i = 0; i < 64; i++)
+            {
+                for(int j = 0; j < 64; j++)
+                {
+                	
+                	if (pixels[i*64 + j] < 0)
+                	{
+                		pattern[i][j] = false;
+                	}
+                	else
+                	{
+                		pattern[i][j] = true;
+                	}
+                }
+            }
+            
             Clock.instance().stop(); // stop the game and
             outermostCell.clear(); // clear the board.
             
