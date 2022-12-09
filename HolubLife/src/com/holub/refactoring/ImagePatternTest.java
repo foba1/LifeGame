@@ -2,41 +2,105 @@ package com.holub.refactoring;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.awt.Image;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Arrays;
 
-import javax.imageio.ImageIO;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ImagePatternTest {
-	
-	private Image image500_500;
-	private Image image64_64;
-	
-	private Boolean[][] answer;
-	private Boolean[][] pattern;
-    
-	@BeforeEach
-    void initialize(){
-		try {
-			this.image500_500 = ImageIO.read(new File("example_image/Black_square_500_500.png"));
-			this.image64_64 = ImageIO.read(new File("example_image/Black_square_64_64.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-		}
-    	
-		this.answer = ImagePattern.imageToPattern(image64_64);
-		this.pattern = ImagePattern.imageToPattern(image500_500);
-    }
-    
+
 	@Test
-	void testImageToPattern() throws IOException {     
+	void ImageToPattern_64x64() throws Exception {  
+		File image_64x64 = new File("./example_image/black_square_64x64.png");
+		Boolean[][] pattern = ImagePattern.imageToPattern(image_64x64);
+		
+		Boolean[][] answer = new Boolean[64][64];
+		for (int i=0; i<64; i++)
+        	Arrays.fill(answer[i], false);
+		
+		for (int i=13; i< 51; i++) {
+			for (int j=12; j<52; j++) {
+				answer[i][j] = true;
+			}
+		}
+		
+		for (int j=13; j<51;j++) {
+			answer[12][j] = true;
+			answer[51][j] = true;
+		}
+		
+        assertTrue(IsSamePattern(answer, pattern));
+	}
+	
+	@Test
+	void ImageToPattern_100x100() throws Exception {     
+		File image_100x100 = new File("./example_image/black_square_100x100.png");
+		Boolean[][] pattern = ImagePattern.imageToPattern(image_100x100);
+		
+		Boolean[][] answer = new Boolean[64][64];
+		for (int i=0; i<64; i++)
+        	Arrays.fill(answer[i], false);
+		
+		for (int i=12; i< 52; i++) {
+			for (int j=12; j<52; j++) {
+				answer[i][j] = true;
+			}
+		}
+		
+        assertTrue(IsSamePattern(answer, pattern));
+	}
+	
+	@Test
+	void ImageToPattern_30x30() throws Exception {     
+		File image_30x30 = new File("./example_image/black_square_30x30.png");
+		Boolean[][] pattern = ImagePattern.imageToPattern(image_30x30);
+		
+		Boolean[][] answer = new Boolean[64][64];
+		for (int i=0; i<64; i++)
+        	Arrays.fill(answer[i], false);
+		
+		for (int i=13; i< 51; i++) {
+			for (int j=13; j<51; j++) {
+				answer[i][j] = true;
+			}
+		}
+		
+        assertTrue(IsSamePattern(answer, pattern));
+	}
+	
+	@Test
+	void ImageToPattern_100x50() throws Exception {     
+		File image_100x50 = new File("./example_image/black_square_100x50.png");
+		Boolean[][] pattern = ImagePattern.imageToPattern(image_100x50);
+		
+		Boolean[][] answer = new Boolean[64][64];
+		for (int i=0; i<64; i++)
+        	Arrays.fill(answer[i], false);
+		
+		for (int i=22; i< 42; i++) {
+			for (int j=12; j<52; j++) {
+				answer[i][j] = true;
+			}
+		}
+		
+        assertTrue(IsSamePattern(answer, pattern));
+	}
+	
+	@Test
+	void ImageToPattern_15x45() throws Exception {       
+		File image_14x45 = new File("./example_image/black_square_15x45.png");
+		Boolean[][] pattern = ImagePattern.imageToPattern(image_14x45);
+		
+		Boolean[][] answer = new Boolean[64][64];
+		for (int i=0; i<64; i++)
+        	Arrays.fill(answer[i], false);
+		
+		for (int i=13; i< 51; i++) {
+			for (int j=26; j<39; j++) {
+				answer[i][j] = true;
+			}
+		}
+		 
         assertTrue(IsSamePattern(answer, pattern));
 	}
 	
