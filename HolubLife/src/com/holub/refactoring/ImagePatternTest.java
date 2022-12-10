@@ -12,9 +12,9 @@ class ImagePatternTest {
 	@Test
 	void ImageToPattern_64x64() throws Exception {  
 		File image_64x64 = new File("./example_image/black_square_64x64.png");
-		Boolean[][] pattern = ImagePattern.imageToPattern(image_64x64);
+		boolean[][] pattern = ImagePattern.imageToPattern(image_64x64);
 		
-		Boolean[][] answer = new Boolean[64][64];
+		boolean[][] answer = new boolean[64][64];
 		for (int i=0; i<64; i++)
         	Arrays.fill(answer[i], false);
 		
@@ -35,9 +35,9 @@ class ImagePatternTest {
 	@Test
 	void ImageToPattern_100x100() throws Exception {     
 		File image_100x100 = new File("./example_image/black_square_100x100.png");
-		Boolean[][] pattern = ImagePattern.imageToPattern(image_100x100);
+		boolean[][] pattern = ImagePattern.imageToPattern(image_100x100);
 		
-		Boolean[][] answer = new Boolean[64][64];
+		boolean[][] answer = new boolean[64][64];
 		for (int i=0; i<64; i++)
         	Arrays.fill(answer[i], false);
 		
@@ -53,9 +53,9 @@ class ImagePatternTest {
 	@Test
 	void ImageToPattern_30x30() throws Exception {     
 		File image_30x30 = new File("./example_image/black_square_30x30.png");
-		Boolean[][] pattern = ImagePattern.imageToPattern(image_30x30);
+		boolean[][] pattern = ImagePattern.imageToPattern(image_30x30);
 		
-		Boolean[][] answer = new Boolean[64][64];
+		boolean[][] answer = new boolean[64][64];
 		for (int i=0; i<64; i++)
         	Arrays.fill(answer[i], false);
 		
@@ -71,9 +71,9 @@ class ImagePatternTest {
 	@Test
 	void ImageToPattern_100x50() throws Exception {     
 		File image_100x50 = new File("./example_image/black_square_100x50.png");
-		Boolean[][] pattern = ImagePattern.imageToPattern(image_100x50);
+		boolean[][] pattern = ImagePattern.imageToPattern(image_100x50);
 		
-		Boolean[][] answer = new Boolean[64][64];
+		boolean[][] answer = new boolean[64][64];
 		for (int i=0; i<64; i++)
         	Arrays.fill(answer[i], false);
 		
@@ -89,9 +89,9 @@ class ImagePatternTest {
 	@Test
 	void ImageToPattern_15x45() throws Exception {       
 		File image_14x45 = new File("./example_image/black_square_15x45.png");
-		Boolean[][] pattern = ImagePattern.imageToPattern(image_14x45);
+		boolean[][] pattern = ImagePattern.imageToPattern(image_14x45);
 		
-		Boolean[][] answer = new Boolean[64][64];
+		boolean[][] answer = new boolean[64][64];
 		for (int i=0; i<64; i++)
         	Arrays.fill(answer[i], false);
 		
@@ -104,7 +104,7 @@ class ImagePatternTest {
         assertTrue(isSamePattern(answer, pattern));
 	}
 	
-	private boolean isSamePattern(Boolean[][] array1, Boolean[][] array2) {
+	private boolean isSamePattern(boolean[][] array1, boolean[][] array2) {
 		for (int i=0; i< 64; i++) {
 			for (int j=0; j<64; j++) {
 				if (array1[i][j] == array2[i][j]) continue;

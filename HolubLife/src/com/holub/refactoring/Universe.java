@@ -220,7 +220,7 @@ public class Universe extends JPanel {
             int col = scanner.nextInt();
 
 
-            Boolean[][] loadCells = new Boolean[row][col];
+            boolean[][] loadCells = new boolean[row][col];
 
             for(int i = 0; i < row;i++){
                 for(int j =0; j < col; j++){
@@ -242,7 +242,7 @@ public class Universe extends JPanel {
     private void doLoadImage() {
         try {
             File imageFile = Files.userSelected(".", ".png", "PNG File", "Load Image");
-            Boolean[][] pattern = ImagePattern.imageToPattern(imageFile);
+            boolean[][] pattern = ImagePattern.imageToPattern(imageFile);
 
             Clock.instance().stop(); // stop the game and
             outermostCell.clear(); // clear the board.
@@ -267,7 +267,7 @@ public class Universe extends JPanel {
 
             Clock.instance().stop(); // stop the game
 
-            Boolean[][] currentCellBoard = outermostCell.getCellBoard();
+            boolean[][] currentCellBoard = outermostCell.getCellBoard();
 
             String firstLine = currentCellBoard.length + " " + currentCellBoard[0].length + '\n';
             out.write(firstLine.getBytes());
@@ -339,7 +339,7 @@ public class Universe extends JPanel {
             here.width / rowLength,
             here.height / columnLength);
 
-        Boolean[][] cells = outermostCell.getCellBoard();
+        boolean[][] cells = outermostCell.getCellBoard();
 
         for (int row = 0; row < rowLength; ++row) {
             for (int column = 0; column < columnLength; ++column) {
@@ -363,11 +363,11 @@ public class Universe extends JPanel {
         }
     }
     
-    public Boolean[][] getCellBoard(){
+    public boolean[][] getCellBoard(){
         return outermostCell.getCellBoard();
     }
     
-    public void putPattern(int startRow, int startColumn, Boolean[][] pattern)
+    public void putPattern(int startRow, int startColumn, boolean[][] pattern)
     {
     	outermostCell.putPattern(startRow, startColumn, pattern);
     }

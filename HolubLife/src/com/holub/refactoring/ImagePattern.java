@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 public class ImagePattern {
 
-	public static Boolean[][] imageToPattern(File in) throws Exception{
+	public static boolean[][] imageToPattern(File in) throws Exception{
 		Image imagefile = ImageIO.read(in);
 
         int height = imagefile.getHeight(null);
@@ -48,7 +48,7 @@ public class ImagePattern {
  
         byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         
-        Boolean[][] pattern = new Boolean[64][64];
+        boolean[][] pattern = new boolean[64][64];
         for(int i = 0; i < 64; i++)
         	Arrays.fill(pattern[i], false);
         

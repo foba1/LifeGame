@@ -64,8 +64,8 @@ public class CellBoard {
         }
     }
 
-    public Boolean[][] getCellBoard(){
-        Boolean[][] cellBoard = new Boolean[rowLength][columnLength];
+    public boolean[][] getCellBoard(){
+        boolean[][] cellBoard = new boolean[rowLength][columnLength];
 
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[0].length; j++) {
@@ -76,7 +76,7 @@ public class CellBoard {
         return cellBoard;
     }
 
-    public void putPattern(int startRow, int startColumn, Boolean[][] pattern)
+    public void putPattern(int startRow, int startColumn, boolean[][] pattern)
     {
         if(startRow < 0 || startColumn < 0)
             return;

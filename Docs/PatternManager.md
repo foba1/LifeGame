@@ -19,7 +19,7 @@ private int curPattern;
 ### curCellBoard
 
 ```java
-private Boolean[][] curCellBoard;
+private boolean[][] curCellBoard;
 ```
 
 패턴 미리보기 기능을 위한 값으로, 미리보기 패턴을 제외한 CellBoard의 상태를 저장한다.

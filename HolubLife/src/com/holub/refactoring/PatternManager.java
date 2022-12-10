@@ -11,7 +11,7 @@ public class PatternManager {
 	private static final PatternManager theInstance = new PatternManager();
 	
 	private int curPattern = -1;
-	private Boolean[][] curCellBoard;
+	private boolean[][] curCellBoard;
 	private Pattern[] pattern = {new Block(), new Beehive(), new Boat(), new Blinker(), new Beacon(), new Glider(), new Spaceship()};
 	
 	private PatternManager()

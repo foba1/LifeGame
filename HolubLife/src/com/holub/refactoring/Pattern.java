@@ -2,7 +2,7 @@ package com.holub.refactoring;
 
 public abstract class Pattern {
 	private String name;
-	private Boolean[][] pattern;
+	private boolean[][] pattern;
 	
 	public void setName(String name) {
 		this.name = name;
@@ -12,11 +12,11 @@ public abstract class Pattern {
 		return this.name;
 	}
 	
-	public void setPattern(Boolean[][] pattern) {
+	public void setPattern(boolean[][] pattern) {
 		this.pattern = pattern;
 	}
 	
-	public Boolean[][] getPattern() {
+	public boolean[][] getPattern() {
 		return this.pattern;
 	}
 }

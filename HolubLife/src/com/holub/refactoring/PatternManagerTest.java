@@ -73,10 +73,10 @@ class PatternManagerTest {
 	
 	@Test
 	void previewTest() {
-		Boolean[][] beforeCellBoard = Universe.instance().getCellBoard();
+		boolean[][] beforeCellBoard = Universe.instance().getCellBoard();
 		
 		PatternManager.instance().show(0, 0);
-		Boolean[][] afterCellBoard = Universe.instance().getCellBoard();
+		boolean[][] afterCellBoard = Universe.instance().getCellBoard();
 		assertTrue(isSamePattern(beforeCellBoard, afterCellBoard));
 		
 		try {
@@ -112,10 +112,10 @@ class PatternManagerTest {
 	
 	@Test
 	void drawTest() {
-		Boolean[][] beforeCellBoard = Universe.instance().getCellBoard();
+		boolean[][] beforeCellBoard = Universe.instance().getCellBoard();
 		
 		PatternManager.instance().draw(0, 0);
-		Boolean[][] afterCellBoard = Universe.instance().getCellBoard();
+		boolean[][] afterCellBoard = Universe.instance().getCellBoard();
 		assertTrue(isSamePattern(beforeCellBoard, afterCellBoard));
 		
 		try {
@@ -149,7 +149,7 @@ class PatternManagerTest {
 		}
 	}
 	
-	private boolean isSamePattern(Boolean[][] array1, Boolean[][] array2) {
+	private boolean isSamePattern(boolean[][] array1, boolean[][] array2) {
 		for (int i = 0; i < array1.length; i++) {
 			for (int j = 0; j < array1.length; j++) {
 				if (array1[i][j] == array2[i][j]) continue;
