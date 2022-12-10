@@ -19,6 +19,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import java.util.Scanner;
+
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -82,7 +84,7 @@ public class Universe extends JPanel {
                 	repaint();
                 }
             });
-        
+
         addMouseListener // {=Universe.mouse}
 	        (new MouseAdapter() {
 	        	public void mouseExited(MouseEvent e) {
@@ -94,7 +96,7 @@ public class Universe extends JPanel {
 	            }
 	        }
         );
-        
+
         addMouseMotionListener // {=Universe.mouse}
 		    (new MouseAdapter() {
 		    	public void mouseMoved(MouseEvent e) {
@@ -110,7 +112,7 @@ public class Universe extends JPanel {
 				}
 			}
 		);
-        
+
         MenuSite.addLine(this, "Grid", "Clear",
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -134,7 +136,7 @@ public class Universe extends JPanel {
                         doLoadImage();
                     }
                 });
-        
+
         MenuSite.addLine(this, "Grid", "Store",
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -198,32 +200,50 @@ public class Universe extends JPanel {
         return theInstance;
     }
 
+
     private void doLoad() {
         try {
             FileInputStream in = new FileInputStream(
                 Files.userSelected(".", ".life", "Life File", "Load"));
 
-//            Clock.instance().stop(); // stop the game and
-//            outermostCell.clear(); // clear the board.
-//
-//            Storable memento = outermostCell.createMemento();
-//            memento.load(in);
-//            outermostCell.transfer(memento, new Point(0, 0), Cell.LOAD);
+            Clock.instance().stop(); // stop the game and
+
+            outermostCell.clear(); // clear the board.
+
+            int bufSize = in.available(); //읽어올 수 있는 byte의 수를 반환한다.
+            byte[] buf = new byte[bufSize]; //bufSize 만큼의 byte 배열을 선언한다.
+            in.read(buf);
+
+            Scanner scanner = new Scanner(new String(buf));
+
+            int row = scanner.nextInt();
+            int col = scanner.nextInt();
+
+
+            Boolean[][] loadCells = new Boolean[row][col];
+
+            for(int i = 0; i < row;i++){
+                for(int j =0; j < col; j++){
+                    loadCells[i][j] = scanner.nextInt() != 0;
+                }
+            }
+
+            putPattern(0,0, loadCells);
 
             in.close();
-        } catch (IOException theException) {
+
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Read Failed!",
                 "The Game of Life", JOptionPane.ERROR_MESSAGE);
         }
         repaint();
     }
-    
+
     private void doLoadImage() {
         try {
-            
             File imageFile = Files.userSelected(".", ".png", "PNG File", "Load Image");
             Boolean[][] pattern = ImagePattern.imageToPattern(imageFile);
-            
+
             Clock.instance().stop(); // stop the game and
             outermostCell.clear(); // clear the board.
 
@@ -245,12 +265,25 @@ public class Universe extends JPanel {
             FileOutputStream out = new FileOutputStream(
                 Files.userSelected(".", ".life", "Life File", "Write"));
 
-//            Clock.instance().stop(); // stop the game
-//
-//            Storable memento = outermostCell.createMemento();
-//            outermostCell.transfer(memento, new Point(0, 0), Cell.STORE);
-//            memento.flush(out);
+            Clock.instance().stop(); // stop the game
 
+            Boolean[][] currentCellBoard = outermostCell.getCellBoard();
+
+            String firstLine = currentCellBoard.length + " " + currentCellBoard[0].length + '\n';
+            out.write(firstLine.getBytes());
+
+            for(int i = 0; i< currentCellBoard.length ;i++)
+            {
+                for(int j = 0; j < currentCellBoard[0].length; j++)
+                {
+                    int value = currentCellBoard[i][j] ? 1 : 0;
+                    String strValue = value + " ";
+                    out.write(strValue.getBytes());
+                }
+                out.write('\n');
+            }
+
+            out.flush();
             out.close();
         } catch (IOException theException) {
             JOptionPane.showMessageDialog(null, "Write Failed!",
