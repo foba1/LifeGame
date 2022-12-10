@@ -14,12 +14,12 @@ import org.junit.jupiter.api.Test;
 class PatternManagerTest {
 
 	@BeforeAll
-	public static void Initialize() {
+	public static void initialize() {
 		Life.main(null);
 	}
 	
 	@BeforeEach
-	void Setup() {
+	void setup() {
 		try {
 			Method method = PatternManager.instance().getClass().getDeclaredMethod("selectPattern", int.class);
 			method.setAccessible(true);
@@ -43,7 +43,7 @@ class PatternManagerTest {
 	}
 	
 	@Test
-	void SelectTest() {
+	void selectTest() {
 		try {
 			Method method = PatternManager.instance().getClass().getDeclaredMethod("selectPattern", int.class);
 			method.setAccessible(true);
@@ -72,7 +72,7 @@ class PatternManagerTest {
 	}
 	
 	@Test
-	void PreviewTest() {
+	void previewTest() {
 		Boolean[][] beforeCellBoard = Universe.instance().getCellBoard();
 		
 		PatternManager.instance().show(0, 0);
@@ -111,7 +111,7 @@ class PatternManagerTest {
 	}
 	
 	@Test
-	void DrawTest() {
+	void drawTest() {
 		Boolean[][] beforeCellBoard = Universe.instance().getCellBoard();
 		
 		PatternManager.instance().draw(0, 0);
