@@ -3,6 +3,14 @@
 ## Diagram
 
 <details>
+<summary>UML Diagram</summary>
+
+</br>
+
+![Diagram](https://user-images.githubusercontent.com/51505940/206824985-5627ea6d-643a-4c31-b6a9-2bdcfd073399.jpg)
+</details>
+
+<details>
 <summary>Use Case Diagram</summary>
 
 </br>

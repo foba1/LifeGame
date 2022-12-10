@@ -6,6 +6,8 @@
 
 이 클래스는 사용자에게 다양한 패턴을 제공한다.
 
+**See also:** [class Pattern](Pattern.md)
+
 ## Member variables
 
 ### curPattern
@@ -34,42 +36,42 @@ private Pattern[] pattern;
 
 ## Member functions
 
-### Reset
+### reset
 
 ```java
-public void Reset();
+public void reset();
 ```
 
 마우스가 화면을 벗어 났을 때 호출되며, CellBoard의 상태를 저장되어 있는 값으로 초기화한다.
 
-### Show
+### show
 
 ```java
-public void Show(int row, int column);
+public void show(int row, int column);
 ```
 
 마우스 위치에 현재 선택된 패턴을 나타내는 함수이다.
 
-### Draw
+### draw
 
 ```java
-public void Draw(int row, int column);
+public void draw(int row, int column);
 ```
 
 마우스 클릭 위치에 패턴을 그리는 함수이다.
 
-### IsPatternSelected
+### isPatternSelected
 
 ```java
-public boolean IsPatternSelected();
+public boolean isPatternSelected();
 ```
 
 현재 패턴이 선택된 상태인지를 확인하고, 결과로 반환한다.
 
-### SelectPattern
+### selectPattern
 
 ```java
-private void SelectPattern(int pattern);
+private void selectPattern(int pattern);
 ```
 
 패턴을 선택하는 함수이다.
