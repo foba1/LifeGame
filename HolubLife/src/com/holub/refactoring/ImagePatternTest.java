@@ -104,10 +104,10 @@ class ImagePatternTest {
         assertTrue(isSamePattern(answer, pattern));
 	}
 	
-	private boolean isSamePattern(Boolean[][] answer, Boolean[][] pattern) {
+	private boolean isSamePattern(Boolean[][] array1, Boolean[][] array2) {
 		for (int i=0; i< 64; i++) {
 			for (int j=0; j<64; j++) {
-				if (answer[i][j] == pattern[i][j]) continue;
+				if (array1[i][j] == array2[i][j]) continue;
 				else return false;
 			}
 		}
