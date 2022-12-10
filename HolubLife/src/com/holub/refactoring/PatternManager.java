@@ -28,7 +28,7 @@ public class PatternManager {
 		for (int i = 0; i < pattern.length; i++)
 		{
 			final int _i = i;
-			MenuSite.addLine( this, "Pattern", pattern[i].GetName(),
+			MenuSite.addLine( this, "Pattern", pattern[i].getName(),
 					new ActionListener()
 					{	public void actionPerformed(ActionEvent e)
 						{
@@ -53,14 +53,14 @@ public class PatternManager {
 		if (curPattern < 0 || curPattern > pattern.length) return;
 		
 		Universe.instance().putPattern(0, 0, curCellBoard);
-		Universe.instance().putPattern(row, column, pattern[curPattern].GetPattern());
+		Universe.instance().putPattern(row, column, pattern[curPattern].getPattern());
 	}
 	
 	public void draw(int row, int column)
 	{
 		if (curPattern < 0 || curPattern > pattern.length) return;
 		
-		Universe.instance().putPattern(row, column, pattern[curPattern].GetPattern());
+		Universe.instance().putPattern(row, column, pattern[curPattern].getPattern());
 		curCellBoard = Universe.instance().getCellBoard();
 	}
 	

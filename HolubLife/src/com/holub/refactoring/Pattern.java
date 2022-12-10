@@ -4,19 +4,19 @@ public abstract class Pattern {
 	private String name;
 	private Boolean[][] pattern;
 	
-	public void SetName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	
-	public String GetName() {
+	public String getName() {
 		return this.name;
 	}
 	
-	public void SetPattern(Boolean[][] pattern) {
+	public void setPattern(Boolean[][] pattern) {
 		this.pattern = pattern;
 	}
 	
-	public Boolean[][] GetPattern() {
+	public Boolean[][] getPattern() {
 		return this.pattern;
 	}
 }
