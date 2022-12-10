@@ -2,6 +2,26 @@
 
 사용자가 빠르고 편리하게 다양한 패턴을 그릴 수 있도록 기능을 제공하는 클래스.
 
+## Diagram
+
+<details>
+<summary>Class Diagram</summary>
+
+</br>
+
+![Diagram](https://user-images.githubusercontent.com/51505940/206827684-3bba204a-e623-4698-86b1-2ce7b8e37e34.png)
+
+</details>
+
+<details>
+<summary>Sequence Diagram</summary>
+
+</br>
+
+![Diagram](https://user-images.githubusercontent.com/51505940/206827695-24cff13a-d810-4456-9fa6-f8198312ffac.png)
+
+</details>
+
 ## Description
 
 이 클래스는 사용자에게 다양한 패턴을 제공한다.
