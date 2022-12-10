@@ -20,7 +20,7 @@ public class PatternManager {
 				new ActionListener()
 				{	public void actionPerformed(ActionEvent e)
 					{
-						SelectPattern(-1);
+						selectPattern(-1);
 					}
 				}
 			);
@@ -32,7 +32,7 @@ public class PatternManager {
 					new ActionListener()
 					{	public void actionPerformed(ActionEvent e)
 						{
-							SelectPattern(_i);
+							selectPattern(_i);
 						}
 					}
 				);
@@ -43,12 +43,12 @@ public class PatternManager {
 	{	return theInstance;
 	}
 	
-	public void Reset()
+	public void reset()
 	{
 		Universe.instance().putPattern(0, 0, curCellBoard);
 	}
 	
-	public void Show(int row, int column)
+	public void show(int row, int column)
 	{
 		if (curPattern < 0 || curPattern > pattern.length) return;
 		
@@ -56,7 +56,7 @@ public class PatternManager {
 		Universe.instance().putPattern(row, column, pattern[curPattern].GetPattern());
 	}
 	
-	public void Draw(int row, int column)
+	public void draw(int row, int column)
 	{
 		if (curPattern < 0 || curPattern > pattern.length) return;
 		
@@ -64,11 +64,11 @@ public class PatternManager {
 		curCellBoard = Universe.instance().getCellBoard();
 	}
 	
-	public boolean IsPatternSelected()
+	public boolean isPatternSelected()
 	{	return curPattern != -1;
 	}
 	
-	private void SelectPattern(int pattern) {
+	private void selectPattern(int pattern) {
 		if (curPattern == pattern)
 		{
 			curPattern = -1;

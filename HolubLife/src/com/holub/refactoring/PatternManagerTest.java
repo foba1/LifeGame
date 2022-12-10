@@ -21,7 +21,7 @@ class PatternManagerTest {
 	@BeforeEach
 	void Setup() {
 		try {
-			Method method = PatternManager.instance().getClass().getDeclaredMethod("SelectPattern", int.class);
+			Method method = PatternManager.instance().getClass().getDeclaredMethod("selectPattern", int.class);
 			method.setAccessible(true);
 			method.invoke(PatternManager.instance(), -1);
 			
@@ -45,7 +45,7 @@ class PatternManagerTest {
 	@Test
 	void SelectTest() {
 		try {
-			Method method = PatternManager.instance().getClass().getDeclaredMethod("SelectPattern", int.class);
+			Method method = PatternManager.instance().getClass().getDeclaredMethod("selectPattern", int.class);
 			method.setAccessible(true);
 			
 			Field field = PatternManager.instance().getClass().getDeclaredField("curPattern");
@@ -75,12 +75,12 @@ class PatternManagerTest {
 	void PreviewTest() {
 		Boolean[][] beforeCellBoard = Universe.instance().getCellBoard();
 		
-		PatternManager.instance().Show(0, 0);
+		PatternManager.instance().show(0, 0);
 		Boolean[][] afterCellBoard = Universe.instance().getCellBoard();
 		assertTrue(IsSameCellBoard(beforeCellBoard, afterCellBoard));
 		
 		try {
-			Method method = PatternManager.instance().getClass().getDeclaredMethod("SelectPattern", int.class);
+			Method method = PatternManager.instance().getClass().getDeclaredMethod("selectPattern", int.class);
 			method.setAccessible(true);
 			
 			Field field = PatternManager.instance().getClass().getDeclaredField("curPattern");
@@ -90,11 +90,11 @@ class PatternManagerTest {
 			int value = (int)field.get(PatternManager.instance());
 			assertEquals(0, value);
 			
-			PatternManager.instance().Show(0, 0);
+			PatternManager.instance().show(0, 0);
 			afterCellBoard = Universe.instance().getCellBoard();
 			assertFalse(IsSameCellBoard(beforeCellBoard, afterCellBoard));
 			
-			PatternManager.instance().Reset();
+			PatternManager.instance().reset();
 			afterCellBoard = Universe.instance().getCellBoard();
 			assertTrue(IsSameCellBoard(beforeCellBoard, afterCellBoard));
 		} catch (NoSuchMethodException e) {
@@ -114,12 +114,12 @@ class PatternManagerTest {
 	void DrawTest() {
 		Boolean[][] beforeCellBoard = Universe.instance().getCellBoard();
 		
-		PatternManager.instance().Draw(0, 0);
+		PatternManager.instance().draw(0, 0);
 		Boolean[][] afterCellBoard = Universe.instance().getCellBoard();
 		assertTrue(IsSameCellBoard(beforeCellBoard, afterCellBoard));
 		
 		try {
-			Method method = PatternManager.instance().getClass().getDeclaredMethod("SelectPattern", int.class);
+			Method method = PatternManager.instance().getClass().getDeclaredMethod("selectPattern", int.class);
 			method.setAccessible(true);
 			
 			Field field = PatternManager.instance().getClass().getDeclaredField("curPattern");
@@ -129,11 +129,11 @@ class PatternManagerTest {
 			int value = (int)field.get(PatternManager.instance());
 			assertEquals(0, value);
 			
-			PatternManager.instance().Draw(0, 0);
+			PatternManager.instance().draw(0, 0);
 			afterCellBoard = Universe.instance().getCellBoard();
 			assertFalse(IsSameCellBoard(beforeCellBoard, afterCellBoard));
 			
-			PatternManager.instance().Reset();
+			PatternManager.instance().reset();
 			afterCellBoard = Universe.instance().getCellBoard();
 			assertFalse(IsSameCellBoard(beforeCellBoard, afterCellBoard));
 		} catch (NoSuchMethodException e) {

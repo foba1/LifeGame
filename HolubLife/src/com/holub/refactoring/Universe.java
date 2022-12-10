@@ -71,9 +71,9 @@ public class Universe extends JPanel {
                     bounds.x = 0;
                     bounds.y = 0;
                     int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
-                	if (PatternManager.instance().IsPatternSelected())
+                	if (PatternManager.instance().isPatternSelected())
                 	{
-                		PatternManager.instance().Draw(point[0], point[1]);
+                		PatternManager.instance().draw(point[0], point[1]);
                 	}
                 	else
                 	{
@@ -86,9 +86,9 @@ public class Universe extends JPanel {
         addMouseListener // {=Universe.mouse}
 	        (new MouseAdapter() {
 	        	public void mouseExited(MouseEvent e) {
-	        		if (PatternManager.instance().IsPatternSelected())
+	        		if (PatternManager.instance().isPatternSelected())
 					{
-	        			PatternManager.instance().Reset();
+	        			PatternManager.instance().reset();
 						repaint();
 					}
 	            }
@@ -98,13 +98,13 @@ public class Universe extends JPanel {
         addMouseMotionListener // {=Universe.mouse}
 		    (new MouseAdapter() {
 		    	public void mouseMoved(MouseEvent e) {
-					if (PatternManager.instance().IsPatternSelected())
+					if (PatternManager.instance().isPatternSelected())
 					{
 						Rectangle bounds = getBounds();
 	                    bounds.x = 0;
 	                    bounds.y = 0;
 	                    int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
-	                    PatternManager.instance().Show(point[0], point[1]);
+	                    PatternManager.instance().show(point[0], point[1]);
 						repaint();
 					}
 				}
