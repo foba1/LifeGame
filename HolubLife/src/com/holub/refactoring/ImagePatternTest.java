@@ -29,7 +29,7 @@ class ImagePatternTest {
 			answer[51][j] = true;
 		}
 		
-        assertTrue(IsSamePattern(answer, pattern));
+        assertTrue(isSamePattern(answer, pattern));
 	}
 	
 	@Test
@@ -47,7 +47,7 @@ class ImagePatternTest {
 			}
 		}
 		
-        assertTrue(IsSamePattern(answer, pattern));
+        assertTrue(isSamePattern(answer, pattern));
 	}
 	
 	@Test
@@ -65,7 +65,7 @@ class ImagePatternTest {
 			}
 		}
 		
-        assertTrue(IsSamePattern(answer, pattern));
+        assertTrue(isSamePattern(answer, pattern));
 	}
 	
 	@Test
@@ -83,7 +83,7 @@ class ImagePatternTest {
 			}
 		}
 		
-        assertTrue(IsSamePattern(answer, pattern));
+        assertTrue(isSamePattern(answer, pattern));
 	}
 	
 	@Test
@@ -101,10 +101,10 @@ class ImagePatternTest {
 			}
 		}
 		 
-        assertTrue(IsSamePattern(answer, pattern));
+        assertTrue(isSamePattern(answer, pattern));
 	}
 	
-	private boolean IsSamePattern(Boolean[][] answer, Boolean[][] pattern) {
+	private boolean isSamePattern(Boolean[][] answer, Boolean[][] pattern) {
 		for (int i=0; i< 64; i++) {
 			for (int j=0; j<64; j++) {
 				if (answer[i][j] == pattern[i][j]) continue;

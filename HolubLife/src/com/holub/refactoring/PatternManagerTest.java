@@ -77,7 +77,7 @@ class PatternManagerTest {
 		
 		PatternManager.instance().show(0, 0);
 		Boolean[][] afterCellBoard = Universe.instance().getCellBoard();
-		assertTrue(IsSameCellBoard(beforeCellBoard, afterCellBoard));
+		assertTrue(isSamePattern(beforeCellBoard, afterCellBoard));
 		
 		try {
 			Method method = PatternManager.instance().getClass().getDeclaredMethod("selectPattern", int.class);
@@ -92,11 +92,11 @@ class PatternManagerTest {
 			
 			PatternManager.instance().show(0, 0);
 			afterCellBoard = Universe.instance().getCellBoard();
-			assertFalse(IsSameCellBoard(beforeCellBoard, afterCellBoard));
+			assertFalse(isSamePattern(beforeCellBoard, afterCellBoard));
 			
 			PatternManager.instance().reset();
 			afterCellBoard = Universe.instance().getCellBoard();
-			assertTrue(IsSameCellBoard(beforeCellBoard, afterCellBoard));
+			assertTrue(isSamePattern(beforeCellBoard, afterCellBoard));
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
@@ -116,7 +116,7 @@ class PatternManagerTest {
 		
 		PatternManager.instance().draw(0, 0);
 		Boolean[][] afterCellBoard = Universe.instance().getCellBoard();
-		assertTrue(IsSameCellBoard(beforeCellBoard, afterCellBoard));
+		assertTrue(isSamePattern(beforeCellBoard, afterCellBoard));
 		
 		try {
 			Method method = PatternManager.instance().getClass().getDeclaredMethod("selectPattern", int.class);
@@ -131,11 +131,11 @@ class PatternManagerTest {
 			
 			PatternManager.instance().draw(0, 0);
 			afterCellBoard = Universe.instance().getCellBoard();
-			assertFalse(IsSameCellBoard(beforeCellBoard, afterCellBoard));
+			assertFalse(isSamePattern(beforeCellBoard, afterCellBoard));
 			
 			PatternManager.instance().reset();
 			afterCellBoard = Universe.instance().getCellBoard();
-			assertFalse(IsSameCellBoard(beforeCellBoard, afterCellBoard));
+			assertFalse(isSamePattern(beforeCellBoard, afterCellBoard));
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
@@ -149,7 +149,7 @@ class PatternManagerTest {
 		}
 	}
 	
-	private boolean IsSameCellBoard(Boolean[][] array1, Boolean[][] array2) {
+	private boolean isSamePattern(Boolean[][] array1, Boolean[][] array2) {
 		for (int i = 0; i < array1.length; i++) {
 			for (int j = 0; j < array1.length; j++) {
 				if (array1[i][j] == array2[i][j]) continue;
