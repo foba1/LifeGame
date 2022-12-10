@@ -2,8 +2,14 @@
 
 package com.holub.tools;
 
-import java.util.logging.*;
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 /**
  * This class provides a single method that sets up logging for a particular package to go to the
@@ -27,43 +33,43 @@ import java.io.*;
  */
 public class Log {
 
-  /**
-   * Send all log messages for the indicated package to the console (System.err). The normal header
-   * (which holds the timestamp and package name) is not printed.
-   */
+    /**
+     * Send all log messages for the indicated package to the console (System.err). The normal
+     * header (which holds the timestamp and package name) is not printed.
+     */
 
-  public static void toScreen(String packageName) {
-    // Arrange for log output to be visible on the screen.
+    public static void toScreen(String packageName) {
+        // Arrange for log output to be visible on the screen.
 
-    Logger log = Logger.getLogger(packageName);
-    Handler h = new ConsoleHandler();
-    h.setLevel(Level.ALL);
-    h.setFormatter(new Formatter() {
-                     public String format(LogRecord r) {
-                       return r.getMessage() + "\n";
-                     }
-                   }
-    );
-    log.setUseParentHandlers(false);
-    log.setLevel(Level.ALL);
-    log.addHandler(h);
-  }
+        Logger log = Logger.getLogger(packageName);
+        Handler h = new ConsoleHandler();
+        h.setLevel(Level.ALL);
+        h.setFormatter(new Formatter() {
+                           public String format(LogRecord r) {
+                               return r.getMessage() + "\n";
+                           }
+                       }
+        );
+        log.setUseParentHandlers(false);
+        log.setLevel(Level.ALL);
+        log.addHandler(h);
+    }
 
-  /**
-   * Turn off all logging for a particular package.
-   */
-  public static void off(String packageName) {
-    Logger.getLogger(packageName).setLevel(Level.OFF);
-  }
+    /**
+     * Turn off all logging for a particular package.
+     */
+    public static void off(String packageName) {
+        Logger.getLogger(packageName).setLevel(Level.OFF);
+    }
 
-  /**
-   * Convenience for error messages, return a stack trace for the indicated exception as a string.
-   * Let's you put a stack trace into a "logged" message.
-   */
+    /**
+     * Convenience for error messages, return a stack trace for the indicated exception as a string.
+     * Let's you put a stack trace into a "logged" message.
+     */
 
-  public static String stackTraceAsString(Exception e) {
-    StringWriter out = new StringWriter();
-    e.printStackTrace(new PrintWriter(out));
-    return out.toString();
-  }
+    public static String stackTraceAsString(Exception e) {
+        StringWriter out = new StringWriter();
+        e.printStackTrace(new PrintWriter(out));
+        return out.toString();
+    }
 }

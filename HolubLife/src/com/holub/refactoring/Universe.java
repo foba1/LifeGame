@@ -18,9 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import java.util.Scanner;
-
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,10 +33,9 @@ public class Universe extends JPanel {
     private static final Universe theInstance = new Universe();
     private static final int DEFAULT_GRID_SIZE = 64;
     private static final int DEFAULT_CELL_SIZE = 8;
+    private final CellBoard outermostCell;
     private int rowLength;
     private int columnLength;
-
-    private final CellBoard outermostCell;
 
     private Universe() {
         rowLength = DEFAULT_GRID_SIZE;
@@ -69,49 +66,44 @@ public class Universe extends JPanel {
         addMouseListener // {=Universe.mouse}
             (new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
-                	Rectangle bounds = getBounds();
+                    Rectangle bounds = getBounds();
                     bounds.x = 0;
                     bounds.y = 0;
                     int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
-                	if (PatternManager.instance().isPatternSelected())
-                	{
-                		PatternManager.instance().draw(point[0], point[1]);
-                	}
-                	else
-                	{
+                    if (PatternManager.instance().isPatternSelected()) {
+                        PatternManager.instance().draw(point[0], point[1]);
+                    } else {
                         outermostCell.flipSpecificCell(point[0], point[1]);
-                	}
-                	repaint();
+                    }
+                    repaint();
                 }
             });
 
         addMouseListener // {=Universe.mouse}
-	        (new MouseAdapter() {
-	        	public void mouseExited(MouseEvent e) {
-	        		if (PatternManager.instance().isPatternSelected())
-					{
-	        			PatternManager.instance().reset();
-						repaint();
-					}
-	            }
-	        }
-        );
+            (new MouseAdapter() {
+                 public void mouseExited(MouseEvent e) {
+                     if (PatternManager.instance().isPatternSelected()) {
+                         PatternManager.instance().reset();
+                         repaint();
+                     }
+                 }
+             }
+            );
 
         addMouseMotionListener // {=Universe.mouse}
-		    (new MouseAdapter() {
-		    	public void mouseMoved(MouseEvent e) {
-					if (PatternManager.instance().isPatternSelected())
-					{
-						Rectangle bounds = getBounds();
-	                    bounds.x = 0;
-	                    bounds.y = 0;
-	                    int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
-	                    PatternManager.instance().show(point[0], point[1]);
-						repaint();
-					}
-				}
-			}
-		);
+            (new MouseAdapter() {
+                 public void mouseMoved(MouseEvent e) {
+                     if (PatternManager.instance().isPatternSelected()) {
+                         Rectangle bounds = getBounds();
+                         bounds.x = 0;
+                         bounds.y = 0;
+                         int[] point = getCellIndexFromUserClicked(e.getPoint(), bounds);
+                         PatternManager.instance().show(point[0], point[1]);
+                         repaint();
+                     }
+                 }
+             }
+            );
 
         MenuSite.addLine(this, "Grid", "Clear",
             new ActionListener() {
@@ -187,19 +179,18 @@ public class Universe extends JPanel {
             );
     }
 
+    public static Universe instance() {
+        return theInstance;
+    }
+
     private int[] getCellIndexFromUserClicked(Point here, Rectangle surface) {
         int pixelsPerCell = surface.width / rowLength;
         int row = here.y / pixelsPerCell;
         int column = here.x / pixelsPerCell;
 
-        int[] point = {row,column};
+        int[] point = {row, column};
         return point;
     }
-
-    public static Universe instance() {
-        return theInstance;
-    }
-
 
     private void doLoad() {
         try {
@@ -219,16 +210,15 @@ public class Universe extends JPanel {
             int row = scanner.nextInt();
             int col = scanner.nextInt();
 
-
             boolean[][] loadCells = new boolean[row][col];
 
-            for(int i = 0; i < row;i++){
-                for(int j =0; j < col; j++){
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
                     loadCells[i][j] = scanner.nextInt() != 0;
                 }
             }
 
-            putPattern(0,0, loadCells);
+            putPattern(0, 0, loadCells);
 
             in.close();
 
@@ -248,13 +238,12 @@ public class Universe extends JPanel {
             outermostCell.clear(); // clear the board.
 
             Universe.instance().putPattern(0, 0, pattern);
-        }
-        catch (IOException theException) {
+        } catch (IOException theException) {
             JOptionPane.showMessageDialog(null, "Read Failed!",
                 "The Game of Life", JOptionPane.ERROR_MESSAGE);
-        }
-        catch (Exception e) {
-        	JOptionPane.showMessageDialog(null, "Read Failed!\nSelected file is not an image files\nPlease select an image file.",
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                "Read Failed!\nSelected file is not an image files\nPlease select an image file.",
                 "The Game of Life", JOptionPane.ERROR_MESSAGE);
         }
         repaint();
@@ -272,10 +261,8 @@ public class Universe extends JPanel {
             String firstLine = currentCellBoard.length + " " + currentCellBoard[0].length + '\n';
             out.write(firstLine.getBytes());
 
-            for(int i = 0; i< currentCellBoard.length ;i++)
-            {
-                for(int j = 0; j < currentCellBoard[0].length; j++)
-                {
+            for (int i = 0; i < currentCellBoard.length; i++) {
+                for (int j = 0; j < currentCellBoard[0].length; j++) {
                     int value = currentCellBoard[i][j] ? 1 : 0;
                     String strValue = value + " ";
                     out.write(strValue.getBytes());
@@ -362,13 +349,12 @@ public class Universe extends JPanel {
             subcell.translate(-here.width, subcell.height);
         }
     }
-    
-    public boolean[][] getCellBoard(){
+
+    public boolean[][] getCellBoard() {
         return outermostCell.getCellBoard();
     }
-    
-    public void putPattern(int startRow, int startColumn, boolean[][] pattern)
-    {
-    	outermostCell.putPattern(startRow, startColumn, pattern);
+
+    public void putPattern(int startRow, int startColumn, boolean[][] pattern) {
+        outermostCell.putPattern(startRow, startColumn, pattern);
     }
 }

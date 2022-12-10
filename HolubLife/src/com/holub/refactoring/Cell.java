@@ -1,10 +1,5 @@
 package com.holub.refactoring;
 
-import com.holub.ui.Colors;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class Cell {
@@ -26,7 +21,7 @@ public class Cell {
         int neighbors = 0;
 
         for (Cell cell : aroundCells) {
-            if(cell.isAlive()){
+            if (cell.isAlive()) {
                 neighbors++;
             }
         }

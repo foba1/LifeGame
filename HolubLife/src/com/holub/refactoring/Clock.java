@@ -1,19 +1,21 @@
 package com.holub.refactoring;
 
-import javax.swing.*;
-import java.util.*;
-import java.util.Timer;        // overrides java.awt.timer
 import com.holub.tools.Publisher;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.swing.MenuElement;
+import javax.swing.MenuSelectionManager;
 
 public class Clock {
+
+    private static Clock instance;
     private Timer clock = new Timer();
     private TimerTask tick = null;
+    private Publisher publisher = new Publisher();
 
     private Clock() {
 
     }
-
-    private static Clock instance;
 
     /**
      * The clock is a singleton. Get a reference to it by calling
@@ -47,20 +49,13 @@ public class Clock {
         startTicking(0);
     }
 
-    private Publisher publisher = new Publisher();
-
     public void addClockListener(Listener observer) {
         publisher.subscribe(observer);
     }
 
-    public interface Listener {
-
-        void tick();
-    }
-
     /**
-     * Force the clock to "tick," even if it's not time for a tick. Useful for forcing a tick when the
-     * clock is stopped. (Life uses this for single stepping.)
+     * Force the clock to "tick," even if it's not time for a tick. Useful for forcing a tick when
+     * the clock is stopped. (Life uses this for single stepping.)
      */
     public void tick() {
         publisher.publish
@@ -78,6 +73,11 @@ public class Clock {
         MenuElement[] path =
             MenuSelectionManager.defaultManager().getSelectedPath();
         return (path != null && path.length > 0);
+    }
+
+    public interface Listener {
+
+        void tick();
     }
 
 

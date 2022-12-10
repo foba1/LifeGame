@@ -1,10 +1,5 @@
 package com.holub.refactoring;
 
-import com.holub.ui.Colors;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class CellBoard {
@@ -36,7 +31,7 @@ public class CellBoard {
                         if (a == -1 || a == rowLength || b == -1 || b == columnLength) {
                             continue;
                         }
-                        if (a == i && b == j){
+                        if (a == i && b == j) {
                             continue;
                         }
                         aroundCells.add(cells[a][b]);
@@ -64,7 +59,7 @@ public class CellBoard {
         }
     }
 
-    public boolean[][] getCellBoard(){
+    public boolean[][] getCellBoard() {
         boolean[][] cellBoard = new boolean[rowLength][columnLength];
 
         for (int i = 0; i < cells.length; i++) {
@@ -76,24 +71,28 @@ public class CellBoard {
         return cellBoard;
     }
 
-    public void putPattern(int startRow, int startColumn, boolean[][] pattern)
-    {
-        if(startRow < 0 || startColumn < 0)
+    public void putPattern(int startRow, int startColumn, boolean[][] pattern) {
+        if (startRow < 0 || startColumn < 0) {
             return;
+        }
 
         int maxRowLength = startRow + pattern.length;
-        if(maxRowLength > rowLength) maxRowLength = rowLength;
+        if (maxRowLength > rowLength) {
+            maxRowLength = rowLength;
+        }
         int maxColumnLength = startColumn + pattern[0].length;
-        if(maxColumnLength > columnLength) maxColumnLength = columnLength;
+        if (maxColumnLength > columnLength) {
+            maxColumnLength = columnLength;
+        }
 
-        for(int i = startRow; i < maxRowLength; i++){
-            for(int j = startColumn; j < maxColumnLength; j++){
+        for (int i = startRow; i < maxRowLength; i++) {
+            for (int j = startColumn; j < maxColumnLength; j++) {
                 cells[i][j].setAmAlive(pattern[i - startRow][j - startColumn]);
             }
         }
     }
 
-    void flipSpecificCell(int row, int column){
+    public void flipSpecificCell(int row, int column) {
         cells[row][column].filpAmAlive();
     }
 
